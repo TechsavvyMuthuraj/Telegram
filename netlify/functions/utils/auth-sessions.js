@@ -183,13 +183,10 @@ function createAuthChallenge({ claimedUsername = '', clientIp = '', telegramUser
   global.__tm_auth_sessions.set(sessionId, challenge);
   global.__tm_code_to_session.set(code, sessionId);
 
-  // Background save to Supabase for distributed serverless persistence
-  saveSessionToSupabase(challenge).catch(() => {});
-
   // Clean expired sessions periodically
   cleanExpiredSessions();
 
-  return {
+  const result = {
     sessionId,
     code,
     claimedUsername: cleanUsername,
@@ -198,6 +195,13 @@ function createAuthChallenge({ claimedUsername = '', clientIp = '', telegramUser
     deepLink: `https://t.me/${process.env.TELEGRAM_BOT_USERNAME || 'techieverifybot'}?start=auth_${code}`,
     botUsername: process.env.TELEGRAM_BOT_USERNAME || 'techieverifybot'
   };
+
+  const promise = (async () => {
+    await saveSessionToSupabase(challenge);
+    return result;
+  })();
+
+  return Object.assign(promise, result);
 }
 
 /**

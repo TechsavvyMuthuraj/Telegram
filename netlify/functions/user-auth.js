@@ -176,7 +176,7 @@ exports.handler = async (event, context) => {
       // ACTION A: Create new auth challenge
       if (action === 'create_challenge' || action === 'initiate') {
         const username = body.username || body.claimed_username || '';
-        const challenge = createAuthChallenge({
+        const challenge = await createAuthChallenge({
           claimedUsername: username,
           clientIp
         });

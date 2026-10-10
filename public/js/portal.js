@@ -72,11 +72,23 @@ async function initChannelInfo() {
       const inviteBtn = document.getElementById('channel-invite-btn');
       const joinBtnText = document.getElementById('channel-join-btn-text');
 
+      const memberCountFormatted = `${c.member_count}+`;
       if (titleEl) titleEl.innerText = c.title;
-      if (countEl) countEl.innerText = `${c.member_count}+`;
+      if (countEl) countEl.innerText = memberCountFormatted;
       if (descEl && c.description) descEl.innerText = c.description;
       if (inviteBtn && c.invite_link) inviteBtn.href = c.invite_link;
       if (joinBtnText) joinBtnText.innerText = `Join ${c.handle} Channel (${c.member_count}+ Members) ✈️`;
+
+      // Update hero and mobile drawer live member counters
+      const heroCountEl = document.getElementById('hero-live-member-count');
+      if (heroCountEl) heroCountEl.innerText = memberCountFormatted;
+
+      const drawerCountEl = document.getElementById('mobile-drawer-member-count');
+      if (drawerCountEl) drawerCountEl.innerText = memberCountFormatted;
+
+      document.querySelectorAll('.live-channel-member-count').forEach(el => {
+        el.innerText = memberCountFormatted;
+      });
     }
   } catch (err) {
     console.warn('[Portal] Failed to fetch channel info:', err);
@@ -342,11 +354,13 @@ function setupEventListeners() {
     });
   });
 
-  // Search input debounce
+  // Search input debounce and clear button
   const searchInput = document.getElementById('search-input');
+  const searchClearBtn = document.getElementById('search-clear-btn');
   if (searchInput) {
     let debounceTimer;
     searchInput.addEventListener('input', () => {
+      if (searchClearBtn) searchClearBtn.style.display = searchInput.value.trim() ? 'inline-flex' : 'none';
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
         renderFiles();
@@ -354,13 +368,69 @@ function setupEventListeners() {
     });
   }
 
-  // Token input auto-formatting in modal
+  // Token input auto-formatting in modal and clear button
   const tokenInput = document.getElementById('modal-token-input');
+  const tokenClearBtn = document.getElementById('modal-token-clear-btn');
   if (tokenInput) {
     tokenInput.addEventListener('input', (e) => {
       e.target.value = e.target.value.toUpperCase();
+      if (tokenClearBtn) tokenClearBtn.style.display = e.target.value.trim() ? 'inline-flex' : 'none';
     });
   }
+
+  // Telegram direct download input clear button
+  const directInput = document.getElementById('portal-tg-direct-input');
+  const directClearBtn = document.getElementById('portal-tg-direct-clear-btn');
+  if (directInput) {
+    directInput.addEventListener('input', (e) => {
+      if (directClearBtn) directClearBtn.style.display = e.target.value.trim() ? 'inline-flex' : 'none';
+    });
+    directInput.addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') handlePortalDirectDownload();
+    });
+  }
+}
+
+/**
+ * Clear the Search Input
+ */
+function clearSearchInput() {
+  const input = document.getElementById('search-input');
+  const btn = document.getElementById('search-clear-btn');
+  if (input) {
+    input.value = '';
+    input.focus();
+  }
+  if (btn) btn.style.display = 'none';
+  renderFiles();
+}
+
+/**
+ * Clear the Telegram Direct Download Input
+ */
+function clearTgDirectInput() {
+  const input = document.getElementById('portal-tg-direct-input');
+  const btn = document.getElementById('portal-tg-direct-clear-btn');
+  const resBox = document.getElementById('portal-tg-direct-result');
+  if (input) {
+    input.value = '';
+    input.focus();
+  }
+  if (btn) btn.style.display = 'none';
+  if (resBox) resBox.style.display = 'none';
+}
+
+/**
+ * Clear the Quick Unlock Token Input
+ */
+function clearModalTokenInput() {
+  const input = document.getElementById('modal-token-input');
+  const btn = document.getElementById('modal-token-clear-btn');
+  if (input) {
+    input.value = '';
+    input.focus();
+  }
+  if (btn) btn.style.display = 'none';
 }
 
 /**
@@ -1079,15 +1149,23 @@ async function handlePortalDirectDownload() {
 
     const downloadHref = res.direct_download_url;
     resultBox.innerHTML = `
-      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+      <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
           <span class="badge badge-emerald">Ready for Direct Download</span>
-          <span style="font-size: 0.82rem; color: var(--accent-cyan); font-weight: 700;">${res.file_size || ''}</span>
+          <span style="font-size: 0.85rem; color: var(--accent-cyan); font-weight: 700;">${res.file_size || ''}</span>
         </div>
-        <h4 style="margin: 0; font-size: 1.1rem; color: var(--text-primary);">${res.file_name || res.title}</h4>
-        <a href="${downloadHref}" class="btn btn-success" download style="text-decoration: none; justify-content: center; padding: 0.75rem 1rem; font-weight: 700; width: 100%;">
-          🚀 Download File Directly Now
-        </a>
+        <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0.75rem 1rem;">
+          <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600;">File Name</div>
+          <h4 style="margin: 0.2rem 0 0; font-size: 1.05rem; color: var(--text-primary); word-break: break-all;">${res.file_name || res.title}</h4>
+        </div>
+        <div style="display: flex; gap: 0.65rem; flex-wrap: wrap;">
+          <a href="${downloadHref}" class="btn btn-success" download style="text-decoration: none; justify-content: center; padding: 0.75rem 1rem; font-weight: 700; flex: 1; min-width: 180px;">
+            🚀 Download File Directly Now
+          </a>
+          <button type="button" class="btn btn-secondary" onclick="copyDirectDownloadLink('${downloadHref.replace(/'/g, "\\'")}')" style="justify-content: center; padding: 0.75rem 1rem;">
+            📋 Copy Link
+          </button>
+        </div>
       </div>
     `;
     resultBox.style.display = 'block';
@@ -1097,6 +1175,22 @@ async function handlePortalDirectDownload() {
   } finally {
     btn.disabled = false;
     btn.innerHTML = 'Generate Direct Download Link ⚡';
+  }
+}
+
+/**
+ * Copy Direct Download Link to Clipboard
+ */
+function copyDirectDownloadLink(url) {
+  if (!url) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('Direct download link copied to clipboard! 📋', 'success');
+    }).catch(() => {
+      showToast('Direct download link copied! 📋', 'success');
+    });
+  } else {
+    showToast('Direct download link copied! 📋', 'success');
   }
 }
 

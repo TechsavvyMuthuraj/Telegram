@@ -155,6 +155,20 @@
       </div>
     </div>
 
+    <!-- Mobile Channel Community Badge Card -->
+    <div class="mobile-channel-badge-card">
+      <div class="mobile-channel-badge-header">
+        <span class="mobile-channel-icon">⚡</span>
+        <div class="mobile-channel-info">
+          <span class="mobile-channel-title">@techiemuthuraj</span>
+          <span class="mobile-channel-stats"><span id="mobile-drawer-member-count" class="live-channel-member-count">78+</span> Active Members</span>
+        </div>
+        <a href="https://t.me/techiemuthuraj" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-xs mobile-channel-join-btn">
+          Join ✈️
+        </a>
+      </div>
+    </div>
+
     <div class="mobile-nav-links">
       <a href="#catalog" class="mobile-nav-item" onclick="closeMobileNav()">📦 File Catalog</a>
       <a href="#community" class="mobile-nav-item" onclick="closeMobileNav()">👥 Channel Community (@techiemuthuraj)</a>
@@ -172,9 +186,18 @@
   <!-- Hero Section -->
   <section class="hero-section">
     <div class="container">
-      <div class="hero-pill">
-        <span class="pill-dot"></span>
-        <span>Cryptographically Gated Digital Resources</span>
+      <div class="hero-pill-row" style="display: flex; gap: 0.75rem; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
+        <div class="hero-pill" style="margin-bottom: 0;">
+          <span class="pill-dot"></span>
+          <span>Cryptographically Gated Digital Resources</span>
+        </div>
+        <a href="https://t.me/techiemuthuraj" target="_blank" rel="noopener noreferrer" class="hero-channel-meta-pill" title="Join @techiemuthuraj Official Telegram Channel">
+          <span class="meta-item"><span class="pulse-dot"></span> <strong>@techiemuthuraj</strong></span>
+          <span class="meta-sep">•</span>
+          <span class="meta-item">👥 <strong id="hero-live-member-count" class="live-channel-member-count">78+</strong> Members</span>
+          <span class="meta-sep">•</span>
+          <span class="meta-item">🟢 Live</span>
+        </a>
       </div>
       <h1 class="hero-title font-hero">
         Techi <span class="gradient-text-shimmer">Files</span>
@@ -187,10 +210,14 @@
 
       <!-- Search Box -->
       <div class="search-filter-box">
-        <div class="search-input-wrap">
+        <div class="search-input-wrap" style="position: relative; width: 100%;">
           <span class="search-icon">🔍</span>
           <input type="text" id="search-input" class="search-input"
             placeholder="Search by tool name, APK, file code (e.g. TM-APK-901), or description..." autocomplete="off" />
+          <button type="button" id="search-clear-btn" class="input-clear-btn"
+            onclick="clearSearchInput()" title="Clear Search" aria-label="Clear Search" style="display: none;">
+            ✕
+          </button>
         </div>
       </div>
 
@@ -753,8 +780,12 @@
           <div style="position: relative;">
             <input type="text" id="portal-tg-direct-input" class="form-control" 
               placeholder="https://t.me/techiemuthuraj/412" 
-              style="padding-left: 2.3rem; font-family: monospace; font-size: 0.9rem;" />
+              style="padding-left: 2.3rem; padding-right: 2.3rem; font-family: monospace; font-size: 0.9rem;" />
             <span style="position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--neon-cyan);">✈️</span>
+            <button type="button" id="portal-tg-direct-clear-btn" class="input-clear-btn"
+              onclick="clearTgDirectInput()" title="Clear Link" aria-label="Clear Link" style="display: none;">
+              ✕
+            </button>
           </div>
         </div>
 
@@ -790,9 +821,13 @@
 
         <div class="form-group">
           <label class="form-label">Enter File Access Token</label>
-          <div class="token-input-wrapper">
+          <div class="token-input-wrapper" style="position: relative;">
             <input type="text" id="modal-token-input" class="token-input-field" placeholder="TM-XXXX-XXXX-XXXX"
-              maxlength="32" autocomplete="off" />
+              maxlength="32" autocomplete="off" style="padding-right: 2.4rem;" />
+            <button type="button" id="modal-token-clear-btn" class="input-clear-btn"
+              onclick="clearModalTokenInput()" title="Clear Token" aria-label="Clear Token" style="display: none;">
+              ✕
+            </button>
           </div>
           <div style="font-size: 0.78rem; color: var(--text-muted);">
             Tokens are file-specific and provided via the Telegram channel or admin.

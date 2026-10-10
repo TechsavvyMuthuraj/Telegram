@@ -1305,8 +1305,9 @@
     gap: 1.25rem;
   }
   .member-counter-box {
-    grid-template-columns: 1fr;
-    gap: 0.85rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.65rem;
+    padding: 0.95rem 0.85rem;
   }
   .community-showcase-card {
     padding: 1.5rem;
@@ -1720,6 +1721,103 @@
   border-color: rgba(239, 68, 68, 0.55);
   color: #ff6b6b;
   transform: translateY(-50%) scale(1.1);
+}
+
+[data-theme="light"] .input-clear-btn {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #64748b;
+}
+
+[data-theme="light"] .input-clear-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #ef4444;
+}
+
+/* Hero Channel Meta Live Pill */
+.hero-channel-meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  border-radius: var(--radius-full);
+  color: var(--accent-emerald);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  backdrop-filter: blur(12px);
+}
+
+.hero-channel-meta-pill:hover {
+  background: rgba(16, 185, 129, 0.16);
+  border-color: rgba(16, 185, 129, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+  color: #34d399;
+}
+
+.hero-channel-meta-pill .meta-sep {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+/* Mobile Drawer Channel Community Badge Card */
+.mobile-channel-badge-card {
+  background: linear-gradient(135deg, rgba(0, 136, 204, 0.15) 0%, rgba(0, 242, 254, 0.08) 100%);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 0.85rem 1rem;
+  margin: 0.75rem 0.75rem 0.5rem;
+}
+
+.mobile-channel-badge-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.mobile-channel-icon {
+  font-size: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #0088cc, #00f2fe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 15px rgba(0, 136, 204, 0.4);
+}
+
+.mobile-channel-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+}
+
+.mobile-channel-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.mobile-channel-stats {
+  font-size: 0.75rem;
+  color: var(--neon-cyan);
+  font-weight: 600;
+}
+
+.mobile-channel-join-btn {
+  font-size: 0.76rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
 }
 
 .auth-session-header {
