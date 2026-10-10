@@ -64,7 +64,7 @@ INSERT INTO public.files (
     3355443,
     'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&auto=format&fit=crop&q=80',
     'telegram_bot',
-    'BQACAgUAAxkBAAICcGe...', -- Telegram Bot File ID
+    'BQACAgUAAxkBAAICcGe...',
     'https://github.com/techiemuthuraj/demo-assets/archive/refs/heads/main.zip',
     '1.4.2'
 )
@@ -73,7 +73,8 @@ ON CONFLICT (id) DO NOTHING;
 -- 2. Insert App Users
 INSERT INTO public.app_users (id, identifier, display_name, notes) VALUES
 ('11111111-1111-1111-1111-111111111111', 'vip_user@techiemuthuraj.com', 'VIP Developer Muthu', 'Premium channel subscriber'),
-('22222222-2222-2222-2222-222222222222', '@raj_tech_pilot', 'Raj Tech Pilot', 'Telegram beta tester')
+('22222222-2222-2222-2222-222222222222', '@raj_tech_pilot', 'Raj Tech Pilot', 'Telegram beta tester'),
+('33333333-3333-3333-3333-333333333330', '@techiemuthurajofficial', 'techiemuthuraj', 'Official Channel Owner & Creator')
 ON CONFLICT (id) DO NOTHING;
 
 -- 3. Insert Demo Tokens (hashed with SHA-256)
