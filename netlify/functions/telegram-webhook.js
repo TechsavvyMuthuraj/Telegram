@@ -21,7 +21,7 @@ const {
   saveSessionToSupabase
 } = require('./utils/auth-sessions');
 
-const PORTAL_URL = process.env.PORTAL_URL || 'https://techiefile.netlify.app/';
+const PORTAL_URL = process.env.PORTAL_URL || 'https://techsavvymuthuraj.dev/';
 
 /**
  * Format bytes into human readable string (e.g. 14.5 MB)

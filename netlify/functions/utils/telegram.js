@@ -9,14 +9,14 @@ const https = require('https');
  * Get Telegram Bot Token from environment variable
  */
 function getBotToken() {
-  return process.env.TELEGRAM_BOT_TOKEN || null;
+  return process.env.TELEGRAM_BOT_TOKEN || '8952851770:AAHj4OP5KaCqZbwckQAeOH0jvTw3QstRbYU';
 }
 
 /**
  * Get Telegram Channel ID or Username from environment variable
  */
 function getChannelId() {
-  return process.env.TELEGRAM_CHANNEL_ID || null;
+  return process.env.TELEGRAM_CHANNEL_ID || '@techiemuthuraj';
 }
 
 /**

@@ -8,8 +8,8 @@ const { createClient } = require('@supabase/supabase-js');
 const { getBotToken, getChannelId, callTelegramApi } = require('./telegram');
 
 // Supabase Database Connection for Persistent Distributed Sessions
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://klelgazjpgogsmdrbbql.supabase.co';
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsZWxnYXpqcGdvZ3NtZHJiYnFsIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5MTYyMTkwNCwiZXhwIjoyMTA3MTk3OTA0fQ.FAyrrki6VeLX80tIP6SzV9gAvtesZMRP3MHReDZQ05k';
 const isLiveSupabase = Boolean(
   SUPABASE_URL && 
   SUPABASE_SERVICE_ROLE_KEY && 
@@ -28,34 +28,70 @@ if (isLiveSupabase) {
 }
 
 const FALLBACK_FILE_ID = 'c2d8ddc8-ec48-402b-9b9d-d3d8e6389989';
+let systemAuthFileEnsured = false;
+
+async function ensureSystemAuthFile() {
+  if (systemAuthFileEnsured || !supabaseClient) return;
+  try {
+    const { error } = await supabaseClient.from('files').upsert({
+      id: FALLBACK_FILE_ID,
+      file_code: 'SYS-AUTH-GLOBAL',
+      title: 'System Auth Token Container',
+      source_reference: 'system://auth',
+      category: 'General',
+      file_type: 'ZIP',
+      file_size: '0 MB'
+    }, { onConflict: 'id' });
+    if (!error) systemAuthFileEnsured = true;
+  } catch (err) {
+    console.warn('[AuthSession] ensureSystemAuthFile error:', err.message);
+  }
+}
 
 async function saveSessionToSupabase(session) {
   if (!supabaseClient || !session) return;
   try {
+    await ensureSystemAuthFile();
+    try {
+      await supabaseClient
+        .from('access_tokens')
+        .delete()
+        .or(`user_identifier.eq.AUTH_SESSION:${session.code},token_hash.eq.${session.sessionId}`);
+    } catch (_) {}
+
     const payload = {
       file_id: FALLBACK_FILE_ID,
       user_identifier: 'AUTH_SESSION:' + session.code,
       token_preview: session.code,
       token_hash: session.sessionId,
-      is_revoked: false,
+      is_revoked: session.status === 'verified' || session.status === 'rejected_fake',
       revoked_reason: JSON.stringify(session),
       expires_at: new Date(session.expiresAt).toISOString()
     };
-    await supabaseClient.from('access_tokens').insert(payload);
+    const { error } = await supabaseClient.from('access_tokens').insert(payload);
+    if (error) {
+      console.warn('[AuthSession] Supabase saveSession error:', error.message);
+    }
   } catch (err) {
-    // Non-blocking fallback
+    console.warn('[AuthSession] Supabase saveSession exception:', err.message);
   }
 }
 
 async function updateSessionInSupabase(session) {
   if (!supabaseClient || !session) return;
   try {
-    await supabaseClient
+    const { error } = await supabaseClient
       .from('access_tokens')
-      .update({ revoked_reason: JSON.stringify(session) })
+      .update({ 
+        revoked_reason: JSON.stringify(session),
+        is_revoked: session.status === 'verified' || session.status === 'rejected_fake'
+      })
       .eq('user_identifier', 'AUTH_SESSION:' + session.code);
+    if (error) {
+      console.warn('[AuthSession] Supabase updateSession error:', error.message);
+    }
   } catch (err) {
-    // Non-blocking fallback
+    console.warn('[AuthSession] Supabase updateSession exception:', err.message);
   }
 }
 
@@ -67,6 +103,7 @@ async function loadSessionFromSupabaseByCode(code) {
       .from('access_tokens')
       .select('*')
       .eq('user_identifier', 'AUTH_SESSION:' + cleanCode)
+      .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle();
 
@@ -84,6 +121,7 @@ async function loadSessionFromSupabaseBySessionId(sessionId) {
       .from('access_tokens')
       .select('*')
       .eq('token_hash', sessionId)
+      .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle();
 
@@ -329,11 +367,16 @@ async function verifySessionWithTelegramUser({ code, telegramUser, isChannelMemb
   const actualUsername = normalizeUsername(telegramUser.username || '');
   const claimedUsername = normalizeUsername(session.claimedUsername || '');
 
+  const isOwnerPair = (
+    (claimedUsername === 'techiemuthuraj' || claimedUsername === 'techiemuthurajofficial') &&
+    (actualUsername === 'techiemuthuraj' || actualUsername === 'techiemuthurajofficial')
+  );
+
   // ---------------------------------------------------------------------------
   // FAKE / IMPOSTER DETECTION CHECK
   // If user entered a username on website, it MUST match the Telegram account!
   // ---------------------------------------------------------------------------
-  if (claimedUsername && actualUsername && claimedUsername !== actualUsername) {
+  if (!isOwnerPair && claimedUsername && actualUsername && claimedUsername !== actualUsername) {
     session.status = 'rejected_fake';
     session.error = 'IMPOSTER_MISMATCH';
     session.rejectionReason = `Fake user detected! You claimed to be @${claimedUsername}, but your Telegram account is @${actualUsername}.`;
@@ -362,7 +405,12 @@ async function verifySessionWithTelegramUser({ code, telegramUser, isChannelMemb
   let isChannelMember = false;
   let memberStatus = 'non_member';
 
-  if (actualUsername === 'techiemuthuraj' || claimedUsername === 'techiemuthuraj') {
+  const isOwnerHandle = (
+    actualUsername === 'techiemuthuraj' || claimedUsername === 'techiemuthuraj' ||
+    actualUsername === 'techiemuthurajofficial' || claimedUsername === 'techiemuthurajofficial'
+  );
+
+  if (isOwnerHandle) {
     isChannelMember = true;
     memberStatus = 'creator';
   } else if (isChannelMemberOverride !== null) {
