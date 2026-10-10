@@ -119,15 +119,7 @@ The application will launch at:
 
 ---
 
-## 🧪 Testing Credentials & Demo Tokens
 
-When testing locally or on initial deployment, the following credentials are pre-configured:
-
-| Purpose | Value | Details |
-|---|---|---|
-| **Admin Secret Key** | `default-admin-password-techiemuthuraj-2026` | Enter into the Admin Login modal or click "Use Default Demo Key". |
-| **Demo Token 1** | `TM-DEMO-NETSPEED-2026` | Valid for **TM-APK-901** (NetSpeed Monitor Pro). Allows up to **3 downloads**. |
-| **Demo Token 2** | `TM-SINGLE-DEVOPS-9999` | Valid for **TM-TOOL-771** (DevOps Automation Utility). **Single-use only**. |
 
 ---
 
