@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Techi Files | Secure Telegram File Access & Token Downloads</title>
+  <meta name="description"
+    content="Access and download verified tools, Android APKs, software, and developer utilities published by Techi Files (@techiemuthuraj) with cryptographically authenticated access tokens." />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/portal.css" />
+</head>
+
+<body>
+
+  <!-- Colorful Ambient Lighting Engine -->
+  <div class="ambient-lighting-engine">
+    <div class="aurora-orb orb-cyan"></div>
+    <div class="aurora-orb orb-magenta"></div>
+    <div class="aurora-orb orb-purple"></div>
+    <div class="aurora-orb orb-emerald"></div>
+    <div class="cyber-grid-texture"></div>
+  </div>
+
+  <!-- Top Navigation Bar -->
+  <header class="portal-header">
+    <div class="brand-container">
+      <div class="brand-logo-icon">⚡</div>
+      <div class="brand-title">Techi <span>Files</span></div>
+    </div>
+
+    <nav class="header-nav">
+      <a href="#catalog" class="nav-link active">File Catalog</a>
+      <a href="#how-it-works" class="nav-link">How It Works</a>
+
+      <a href="/admin.html" class="nav-link">Admin Console</a>
+    </nav>
+
+    <div class="header-actions">
+      <!-- YouTube Channel Button -->
+      <a href="https://youtube.com/@techiemuthuraj" target="_blank" rel="noopener noreferrer"
+        class="social-icon-btn btn-youtube" title="Subscribe on YouTube @techiemuthuraj">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+        </svg>
+        <span>YouTube</span>
+      </a>
+
+      <!-- Instagram Button -->
+      <a href="https://instagram.com/techiemuthuraj" target="_blank" rel="noopener noreferrer"
+        class="social-icon-btn btn-instagram" title="Follow on Instagram @techiemuthuraj">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+        </svg>
+        <span>Instagram</span>
+      </a>
+
+      <!-- Telegram Button -->
+      <a href="https://t.me/techiemuthuraj" target="_blank" rel="noopener noreferrer"
+        class="social-icon-btn btn-telegram" title="Join Telegram Channel @techiemuthuraj">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.3-.6.3l.202-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.838.934z" />
+        </svg>
+        <span>Join ✈️</span>
+      </a>
+
+      <!-- Telegram User Authentication -->
+      <div id="user-auth-header-slot" class="user-auth-header-slot">
+        <!-- Logged Out View (Default) -->
+        <button id="header-login-btn" class="btn btn-secondary btn-sm header-login-btn" onclick="openLoginModal()" title="Login with Telegram">
+          <span class="login-dot"></span>
+          <span>Log In</span>
+        </button>
+
+        <!-- Logged In Profile Pill (Hidden when logged out) -->
+        <div id="header-user-pill" class="header-user-pill" style="display: none;" onclick="toggleUserDropdown(event)">
+          <span class="user-avatar-mini" id="header-user-avatar">✈️</span>
+          <span class="user-handle-mini" id="header-user-handle">@user</span>
+          <span class="user-verified-icon" id="header-user-verified" title="Original Account Verified">🛡️</span>
+        </div>
+
+        <!-- User Profile Dropdown Menu -->
+        <div id="user-dropdown-menu" class="user-dropdown-menu" style="display: none;">
+          <div class="user-dropdown-header">
+            <div class="user-dropdown-avatar" id="dropdown-user-avatar">✈️</div>
+            <div class="user-dropdown-info">
+              <div class="user-dropdown-name" id="dropdown-user-name">User Name</div>
+              <div class="user-dropdown-handle" id="dropdown-user-handle">@username</div>
+            </div>
+          </div>
+          <div class="user-dropdown-badges">
+            <span class="badge-chip badge-chip-verified" id="dropdown-badge-verified">✅ Original Account</span>
+            <span class="badge-chip badge-chip-member" id="dropdown-badge-member">💎 Channel Member</span>
+          </div>
+          <div class="user-dropdown-divider"></div>
+          <div class="user-dropdown-stats">
+            <div class="user-stat-item">
+              <span class="stat-lbl">Telegram ID</span>
+              <span class="stat-val mono" id="dropdown-user-id">--</span>
+            </div>
+            <div class="user-stat-item">
+              <span class="stat-lbl">Channel Status</span>
+              <span class="stat-val" id="dropdown-member-status">Subscribed</span>
+            </div>
+          </div>
+          <div class="user-dropdown-divider"></div>
+          <button class="user-dropdown-action-btn" onclick="handleUserLogout()">
+            🚪 Log Out
+          </button>
+        </div>
+      </div>
+
+      <!-- Theme Toggle -->
+      <button class="btn btn-secondary btn-sm theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+        ☀️
+      </button>
+
+      <!-- Mobile Menu Hamburger Button -->
+      <button id="mobile-menu-btn" class="btn btn-secondary btn-sm mobile-menu-toggle" onclick="toggleMobileNav()"
+        aria-label="Toggle Mobile Menu" title="Menu">
+        ☰
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <nav id="mobile-nav-drawer" class="mobile-nav-drawer">
+    <!-- Mobile User Auth Card -->
+    <div class="mobile-nav-user-slot" id="mobile-nav-user-slot">
+      <button id="mobile-login-btn" class="btn btn-primary btn-sm mobile-auth-btn" onclick="closeMobileNav(); openLoginModal();">
+        🔐 Log In with Telegram
+      </button>
+
+      <div id="mobile-user-card" class="mobile-user-card" style="display: none;">
+        <div class="mobile-user-header">
+          <span class="mobile-user-avatar" id="mobile-user-avatar">✈️</span>
+          <div class="mobile-user-details">
+            <div class="mobile-user-handle" id="mobile-user-handle">@username</div>
+            <div class="mobile-user-status" id="mobile-user-status">✅ Verified Original Member</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="handleUserLogout()" style="width: 100%; margin-top: 0.5rem;">
+          🚪 Log Out
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-nav-links">
+      <a href="#catalog" class="mobile-nav-item" onclick="closeMobileNav()">📦 File Catalog</a>
+      <a href="#community" class="mobile-nav-item" onclick="closeMobileNav()">👥 Channel Community (@techiemuthuraj)</a>
+      <a href="#how-it-works" class="mobile-nav-item" onclick="closeMobileNav()">⚡ How It Works</a>
+      <a href="https://t.me/techiemuthuraj" target="_blank" rel="noopener noreferrer" class="mobile-nav-item"
+        onclick="closeMobileNav()">✈️ Telegram Channel ↗</a>
+      <a href="https://youtube.com/@techiemuthuraj" target="_blank" rel="noopener noreferrer" class="mobile-nav-item"
+        onclick="closeMobileNav()">▶️ YouTube Channel ↗</a>
+      <a href="https://instagram.com/techiemuthuraj" target="_blank" rel="noopener noreferrer" class="mobile-nav-item"
+        onclick="closeMobileNav()">📸 Instagram Profile ↗</a>
+      <a href="/admin.html" class="mobile-nav-item" onclick="closeMobileNav()">🛡️ Admin Console</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-pill">
+        <span class="pill-dot"></span>
+        <span>Cryptographically Gated Digital Resources</span>
+      </div>
+      <h1 class="hero-title font-hero">
+        Techi <span class="gradient-text-shimmer">Files</span>
+      </h1>
+      <p class="hero-subtitle">
+        Exclusive tools, APK modifications, software packages, and developer scripts published by
+        <strong>@techiemuthuraj</strong>. Follow our channels and enter your authorized token to unlock atomic
+        downloads.
+      </p>
+
+      <!-- Search Box -->
+      <div class="search-filter-box">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" class="search-input"
+            placeholder="Search by tool name, APK, file code (e.g. TM-APK-901), or description..." autocomplete="off" />
+        </div>
+      </div>
+
+      <!-- Telegram Direct Downloader Quick Link Button -->
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <button class="btn btn-secondary btn-sm" onclick="openModal('telegram-direct-dl-modal')" style="border-radius: var(--radius-full); padding: 0.55rem 1.45rem; font-weight: 700; border: 1px solid rgba(0, 242, 254, 0.45); background: rgba(0, 242, 254, 0.08); color: var(--neon-cyan); box-shadow: 0 0 20px rgba(0, 242, 254, 0.2); cursor: pointer;">
+          <span>⚡ Have a Telegram File Link? Generate Direct Download 📥</span>
+        </button>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="category-pills">
+        <button class="cat-pill active" data-cat="All">All Resources</button>
+        <button class="cat-pill" data-cat="Software">Software & Apps</button>
+        <button class="cat-pill" data-cat="APK">Android APKs</button>
+        <button class="cat-pill" data-cat="Tools">DevOps & Tools</button>
+        <button class="cat-pill" data-cat="Scripts">Code & Scripts</button>
+      </div>
+
+      <!-- Official Social Channels Hub -->
+      <div class="social-channels-bar">
+        <a href="https://t.me/techiemuthuraj" target="_blank" rel="noopener noreferrer"
+          class="social-card social-card-tg">
+          <div class="social-card-icon">✈️</div>
+          <div class="social-card-info">
+            <span class="social-card-title">Telegram Channel</span>
+            <span class="social-card-handle">@techiemuthuraj</span>
+          </div>
+          <span class="social-card-action">Join ↗</span>
+        </a>
+
+        <a href="https://youtube.com/@techiemuthuraj" target="_blank" rel="noopener noreferrer"
+          class="social-card social-card-yt">
+          <div class="social-card-icon">▶️</div>
+          <div class="social-card-info">
+            <span class="social-card-title">YouTube Channel</span>
+            <span class="social-card-handle">@techiemuthuraj</span>
+          </div>
+          <span class="social-card-action">Subscribe ↗</span>
+        </a>
+
+        <a href="https://instagram.com/techiemuthuraj" target="_blank" rel="noopener noreferrer"
+          class="social-card social-card-ig">
+          <div class="social-card-icon">📸</div>
+          <div class="social-card-info">
+            <span class="social-card-title">Instagram</span>
+            <span class="social-card-handle">@techiemuthuraj</span>
+          </div>
+          <span class="social-card-action">Follow ↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Telegram Channel Community Showcase & Live Member Stats -->
+  <section id="community" class="community-showcase-section">
+    <div class="container">
+      <div class="community-showcase-card">
+        <div class="community-card-grid">
+          <!-- Left Column: Channel Identity & Live Member Counter -->
+          <div class="community-profile-pane">
+            <div class="community-badge-row">
+              <span class="badge badge-emerald pulse-badge">
+                <span class="pulse-dot"></span> 🟢 Official Channel
+              </span>
+              <span class="badge badge-cyan mono">@techiemuthuraj</span>
+            </div>
+
+            <div class="channel-identity">
+              <div class="channel-avatar">⚡</div>
+              <div>
+                <h2 id="channel-live-title" class="channel-title">Techie Muthuraj | Tech Updates</h2>
+                <p class="channel-subtext">Official Telegram Channel & Token Distribution Hub</p>
+              </div>
+            </div>
+
+            <!-- Live Member Counter Grid -->
+            <div class="member-counter-box">
+              <div class="counter-item">
+                <span class="counter-label">Channel Members</span>
+                <div class="counter-value-wrap">
+                  <span id="channel-member-count" class="counter-number">78+</span>
+                  <span class="counter-trend">Active 👥</span>
+                </div>
+              </div>
+
+              <div class="counter-item">
+                <span class="counter-label">Update Frequency</span>
+                <div class="counter-value-wrap">
+                  <span class="counter-number">Daily</span>
+                  <span class="counter-trend">Fresh Releases ⚡</span>
+                </div>
+              </div>
+
+              <div class="counter-item">
+                <span class="counter-label">Security Protocol</span>
+                <div class="counter-value-wrap">
+                  <span class="counter-number">100%</span>
+                  <span class="counter-trend">Pre-Scanned 🛡️</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Channel Description Quote -->
+            <div class="channel-bio-quote">
+              <p id="channel-live-desc">
+                🚀 Tech Updates • AI • Apps • Software • Tips<br />
+                💻 Latest tech news, tools & useful resources<br />
+                🤖 AI Tools | Android | Windows | Web | Tutorials<br />
+                ⚡ Stay Updated. Stay @techiemuthuraj
+              </p>
+            </div>
+
+            <div class="channel-join-cta">
+              <a id="channel-invite-btn" href="https://t.me/techiemuthuraj" target="_blank" rel="noopener noreferrer"
+                class="btn btn-primary btn-lg community-join-btn">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                  <path
+                    d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.3-.6.3l.202-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.838.934z" />
+                </svg>
+                <span id="channel-join-btn-text">Join @techiemuthuraj Channel (78+ Members) ✈️</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Column: Member Privileges & Access -->
+          <div class="community-perks-pane">
+            <h3 class="perks-heading">Member Exclusive Privileges</h3>
+            <p class="perks-sub">Why join the @techiemuthuraj channel community?</p>
+
+            <div class="perks-list">
+              <div class="perk-item">
+                <div class="perk-icon">🔑</div>
+                <div class="perk-info">
+                  <h4>Token-Gated VIP Access</h4>
+                  <p>Every file published on Techi Files requires an authentic token released in the channel.</p>
+                </div>
+              </div>
+
+              <div class="perk-item">
+                <div class="perk-icon">⚡</div>
+                <div class="perk-info">
+                  <h4>Direct Release Broadcasts</h4>
+                  <p>Instant alerts on software tools, Android APK updates, and automation utilities.</p>
+                </div>
+              </div>
+
+              <div class="perk-item">
+                <div class="perk-icon">🛡️</div>
+                <div class="perk-info">
+                  <h4>Pre-Scanned & Verified</h4>
+                  <p>All tool files and APKs are tested and verified before public channel publication.</p>
+                </div>
+              </div>
+
+              <div class="perk-item">
+                <div class="perk-icon">🚀</div>
+                <div class="perk-info">
+                  <h4>High-Speed Direct Downloads</h4>
+                  <p>Signed download authorization tickets bypass throttling and third-party ad link shorteners.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catalog Grid Section -->
+  <section id="catalog" class="catalog-section">
+    <div class="container">
+      <div class="catalog-header">
+        <h2 class="catalog-title">
+          <span>📦</span> Available Downloads
+        </h2>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">
+          Each file requires an authorized access token
+        </span>
+      </div>
+
+      <div id="files-grid" class="files-grid">
+        <!-- Rendered dynamically by portal.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" class="steps-section">
+    <div class="container">
+      <div class="section-head">
+        <h2 class="section-title">How Token Access Works</h2>
+        <p class="section-sub">
+          A secure, server-enforced download pipeline designed to protect resources and prevent hotlinking.
+        </p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <span class="step-number">01</span>
+          <div class="step-icon">📱</div>
+          <h4>Find File on Telegram</h4>
+          <p>Browse downloadable files, tools, and releases posted in the @techiemuthuraj Telegram channel.</p>
+        </div>
+
+        <div class="step-card">
+          <span class="step-number">02</span>
+          <div class="step-icon">🔑</div>
+          <h4>Obtain Access Token</h4>
+          <p>Receive your unique access token (e.g., <code>TM-XXXX-XXXX-XXXX</code>) via channel posts, bot prompts, or
+            direct admin grant.</p>
+        </div>
+
+        <div class="step-card">
+          <span class="step-number">03</span>
+          <div class="step-icon">⚡</div>
+          <h4>Server Verification</h4>
+          <p>The backend cryptographically verifies your token's validity, expiration date, and atomic download limits.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <span class="step-number">04</span>
+          <div class="step-icon">🚀</div>
+          <h4>Secure Download</h4>
+          <p>Upon verification, receive a signed 5-minute download authorization ticket delivering your file without
+            exposing bot keys.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community CTA Banner -->
+  <section class="container">
+    <div class="telegram-banner">
+      <h3>Follow @techiemuthuraj Everywhere</h3>
+      <p>
+        Get first-look access to daily software tools, direct APK releases, developer scripts, and new download tokens
+        on YouTube, Instagram, and Telegram.
+      </p>
+      <div style="display: flex; gap: 0.85rem; justify-content: center; flex-wrap: wrap; margin-top: 1.25rem;">
+        <a href="https://t.me/techiemuthuraj" target="_blank" rel="noopener noreferrer"
+          class="social-icon-btn btn-telegram btn-lg">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.3-.6.3l.202-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.838.934z" />
+          </svg>
+          <span>Telegram Channel</span>
+        </a>
+        <a href="https://youtube.com/@techiemuthuraj" target="_blank" rel="noopener noreferrer"
+          class="social-icon-btn btn-youtube btn-lg">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg>
+          <span>YouTube Channel</span>
+        </a>
+        <a href="https://instagram.com/techiemuthuraj" target="_blank" rel="noopener noreferrer"
+          class="social-icon-btn btn-instagram btn-lg">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+          </svg>
+          <span>Instagram</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="portal-footer">
+    <div class="footer-content">
+      <div>
+        <strong
+          style="color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+          ⚡ Techi Files
+        </strong>
+        <p style="margin-top: 0.35rem; color: var(--text-muted);">Token-Gated Digital Resource Platform by
+          @techiemuthuraj.</p>
+      </div>
+      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: center;">
+        <a href="#catalog">Catalog</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="https://t.me/techiemuthuraj" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a href="https://youtube.com/@techiemuthuraj" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="https://instagram.com/techiemuthuraj" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="/admin.html">Admin</a>
+      </div>
+    </div>
+    <div>
+      &copy; 2026 Techi Files (@techiemuthuraj). All rights reserved. Server-side token validation & atomic locking
+      enabled.
+    </div>
+  </footer>
+
+  <!-- Telegram User Authentication Modal -->
+  <div id="user-login-modal" class="modal-overlay">
+    <div class="modal-box modal-auth-box">
+      <div class="modal-header">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-size: 1.3rem;">🔐</span>
+            <h3 style="margin: 0; font-size: 1.25rem;">Telegram Account Login</h3>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Automatic Ownership Verification & Anti-Imposter Protection
+          </div>
+        </div>
+        <span class="modal-close" onclick="closeLoginModal()">&times;</span>
+      </div>
+
+      <div class="modal-body">
+        <!-- STEP 1: Enter Telegram Username -->
+        <div id="auth-step-input" class="auth-step-container">
+          <div class="auth-info-card">
+            <div class="auth-info-icon">🛡️</div>
+            <div class="auth-info-text">
+              <strong>Original Ownership Verification:</strong>
+              <div>Enter your Telegram username. To prevent fake/imposter accounts, our bot will verify authentic ownership and confirm your membership in <strong>@techiemuthuraj</strong> automatically.</div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 1.25rem;">
+            <label class="form-label" for="auth-username-input">Your Telegram Username</label>
+            <div class="telegram-input-wrapper">
+              <span class="telegram-input-prefix">@</span>
+              <input type="text" id="auth-username-input" class="form-input telegram-username-field"
+                placeholder="techiemuthuraj" autocomplete="off" autocorrect="off" autocapitalize="off" />
+            </div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.35rem;">
+              You can also leave this blank to authenticate whichever account you open in Telegram.
+            </div>
+          </div>
+
+          <div id="auth-input-error" class="status-alert status-error" style="display: none; margin-top: 1rem;"></div>
+
+          <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+            <button class="btn btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem 1rem;"
+              onclick="startAuthChallenge()">
+              <span>Generate Verification Link ⚡</span>
+            </button>
+            <button class="btn btn-secondary" style="width: 100%; justify-content: center;"
+              onclick="startAuthChallenge(true)">
+              <span>Direct 1-Click Bot Verification 🚀</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: Automatic Verification In Progress -->
+        <div id="auth-step-verify" class="auth-step-container" style="display: none;">
+          <div class="auth-session-header">
+            <div style="font-size: 0.82rem; color: var(--text-muted);">Verifying Ownership For:</div>
+            <div class="auth-target-handle" id="auth-target-handle">@techiemuthuraj</div>
+          </div>
+
+          <!-- Radar Scanner Animation -->
+          <div class="radar-scanner-container">
+            <div class="radar-pulse-ring ring-1"></div>
+            <div class="radar-pulse-ring ring-2"></div>
+            <div class="radar-pulse-ring ring-3"></div>
+            <div class="radar-center-icon">
+              <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.3-.6.3l.202-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.838.934z"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="auth-scanner-status">
+            <span class="live-pulse-dot"></span>
+            <span id="auth-live-status-text">Listening for Telegram Bot confirmation...</span>
+          </div>
+
+          <!-- 1-Click Direct Deep Link Button -->
+          <div style="margin-top: 1.25rem;">
+            <a id="auth-bot-deeplink-btn" href="#" target="_blank" rel="noopener noreferrer"
+              class="btn btn-primary auth-telegram-btn" style="width: 100%; justify-content: center; padding: 0.85rem 1rem;">
+              <span>⚡ Open Telegram & Verify Automatically</span>
+            </a>
+          </div>
+
+          <!-- Or PIN Code Card -->
+          <div class="auth-pin-card">
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.35rem;">
+              Or send code to <strong>@TechieGuyBot</strong>:
+            </div>
+            <div class="auth-pin-display-row">
+              <div class="auth-pin-code mono" id="auth-display-code">------</div>
+              <button class="btn btn-secondary btn-sm" onclick="copyAuthCode()" id="copy-code-btn">
+                📋 Copy
+              </button>
+            </div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem;">
+              Send <code>/login <span id="auth-code-sub"></span></code> in the bot.
+            </div>
+          </div>
+
+          <!-- Simulation / Dev Test Controls -->
+          <div class="auth-test-toolbar">
+            <div style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600;">
+              🧪 LOCAL VERIFICATION TEST TOOLS:
+            </div>
+            <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+              <button class="btn btn-sm test-btn-pass" onclick="simulateTestVerification(false)" title="Test genuine original owner verification">
+                ✅ Simulate Genuine User
+              </button>
+              <button class="btn btn-sm test-btn-fail" onclick="simulateTestVerification(true)" title="Test fake imposter detection">
+                🚫 Test Imposter Detection
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Verification Success Screen -->
+        <div id="auth-step-success" class="auth-step-container" style="display: none; text-align: center; padding: 1.5rem 0.5rem;">
+          <div class="success-checkmark-glow">✅</div>
+          <h3 style="color: var(--accent-emerald); margin: 0.75rem 0 0.35rem 0; font-size: 1.35rem;">
+            Original User Verified!
+          </h3>
+          <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 1.25rem;">
+            Cryptographic ownership confirmed by Telegram Bot.
+          </p>
+
+          <div class="auth-user-summary-card">
+            <div class="auth-user-summary-row">
+              <span class="lbl">Telegram Handle</span>
+              <span class="val" id="auth-success-handle" style="color: var(--accent-cyan); font-weight: 700;">@username</span>
+            </div>
+            <div class="auth-user-summary-row">
+              <span class="lbl">Account Authenticity</span>
+              <span class="val" style="color: var(--accent-emerald); font-weight: 600;">🛡️ Verified Original</span>
+            </div>
+            <div class="auth-user-summary-row">
+              <span class="lbl">Community Status</span>
+              <span class="val" id="auth-success-community">💎 Official Channel Member</span>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; justify-content: center;" onclick="closeLoginModal()">
+            Continue to Techi Files 🚀
+          </button>
+        </div>
+
+        <!-- STEP 4: Fake / Imposter Detected Screen -->
+        <div id="auth-step-fake" class="auth-step-container" style="display: none; text-align: center; padding: 1.5rem 0.5rem;">
+          <div class="fake-warning-glow">🚫</div>
+          <h3 style="color: #ef4444; margin: 0.75rem 0 0.35rem 0; font-size: 1.35rem;">
+            Imposter Account Detected!
+          </h3>
+          <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.25rem;" id="auth-fake-explanation">
+            The Telegram account that verified does not match the username you entered.
+          </p>
+
+          <div class="auth-imposter-details-card">
+            <div class="imposter-detail-item">
+              <span class="lbl">Claimed Username</span>
+              <span class="val text-danger" id="auth-fake-claimed">@claimed</span>
+            </div>
+            <div class="imposter-arrow">≠</div>
+            <div class="imposter-detail-item">
+              <span class="lbl">Actual Authenticated Account</span>
+              <span class="val text-danger" id="auth-fake-actual">@actual</span>
+            </div>
+          </div>
+
+          <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: var(--radius-md); padding: 0.85rem; font-size: 0.8rem; color: var(--text-secondary); margin-top: 1.25rem; text-align: left;">
+            🛡️ <strong>Anti-Imposter Policy:</strong> You cannot log in using someone else's username. You must authenticate using your own original Telegram account.
+          </div>
+
+          <button class="btn btn-secondary" style="width: 100%; margin-top: 1.25rem; justify-content: center;" onclick="resetAuthModal()">
+            🔄 Try Again with Your Real Account
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Telegram Direct File Downloader -->
+  <div id="telegram-direct-dl-modal" class="modal-overlay">
+    <div class="modal-box" style="max-width: 540px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <span style="font-size: 1.4rem;">⚡</span>
+          <h3 style="margin: 0; font-size: 1.2rem;">Telegram Direct File Downloader</h3>
+        </div>
+        <span class="modal-close" onclick="closeModal('telegram-direct-dl-modal')">&times;</span>
+      </div>
+
+      <div class="modal-body">
+        <div style="background: rgba(0, 242, 254, 0.06); border: 1px solid rgba(0, 242, 254, 0.25); border-radius: var(--radius-md); padding: 0.85rem 1rem; font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.5;">
+          Paste any Telegram post link from <strong>@techiemuthuraj</strong> (e.g. <code>https://t.me/techiemuthuraj/412</code>) to instantly generate a high-speed direct download link.
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Telegram File or Post Link</label>
+          <div style="position: relative;">
+            <input type="text" id="portal-tg-direct-input" class="form-control" 
+              placeholder="https://t.me/techiemuthuraj/412" 
+              style="padding-left: 2.3rem; font-family: monospace; font-size: 0.9rem;" />
+            <span style="position: absolute; left: 0.8rem; top: 50%; transform: translateY(-50%); color: var(--neon-cyan);">✈️</span>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="portal-tg-direct-btn" onclick="handlePortalDirectDownload()" style="width: 100%; justify-content: center; margin-top: 1rem; padding: 0.75rem;">
+          Generate Direct Download Link ⚡
+        </button>
+
+        <div id="portal-tg-direct-result" style="display: none; margin-top: 1.25rem; background: var(--bg-tertiary); border: 1px solid rgba(0, 242, 254, 0.35); border-radius: var(--radius-md); padding: 1.25rem;">
+          <!-- Result rendered dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Unlock Modal -->
+  <div id="quick-unlock-modal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>🔑 Unlock Download Access</h3>
+        <span class="modal-close" onclick="closeModal('quick-unlock-modal')">&times;</span>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="modal-file-id-hidden" />
+
+        <div
+          style="background: var(--bg-tertiary); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-bottom: 1.25rem;">
+          <div style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 600;" id="modal-file-code"
+            class="mono">TM-APK-000</div>
+          <h4 id="modal-file-title" style="font-size: 1.05rem; margin-top: 0.2rem;">File Title</h4>
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;" id="modal-file-size">0 MB</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Enter File Access Token</label>
+          <div class="token-input-wrapper">
+            <input type="text" id="modal-token-input" class="token-input-field" placeholder="TM-XXXX-XXXX-XXXX"
+              maxlength="32" autocomplete="off" />
+          </div>
+          <div style="font-size: 0.78rem; color: var(--text-muted);">
+            Tokens are file-specific and provided via the Telegram channel or admin.
+          </div>
+        </div>
+
+        <div id="modal-status-alert" class="status-alert"></div>
+        <div id="modal-download-area" style="display: none; margin-top: 1rem;"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('quick-unlock-modal')">Cancel</button>
+        <button id="modal-verify-btn" class="btn btn-primary" onclick="handleModalVerify()">Verify Token</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/portal.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Console | Techi Files</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+
+  <!-- Colorful Ambient Lighting Engine -->
+  <div class="ambient-lighting-engine">
+    <div class="aurora-orb orb-cyan"></div>
+    <div class="aurora-orb orb-magenta"></div>
+    <div class="aurora-orb orb-purple"></div>
+    <div class="cyber-grid-texture"></div>
+  </div>
+
+  <!-- Admin Application Layout -->
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div style="width: 32px; height: 32px; background: var(--grad-primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #fff;">
+          ⚡
+        </div>
+        <div>
+          <div style="font-weight: 700; font-size: 1.05rem;">Techi <span style="color: var(--accent-cyan);">Files</span></div>
+          <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Admin Console</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-item active" data-tab="overview">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Overview</span>
+        </div>
+        <div class="nav-item" data-tab="files">
+          <span class="nav-icon">📁</span>
+          <span class="nav-label">File Management</span>
+        </div>
+        <div class="nav-item" data-tab="tokens">
+          <span class="nav-icon">🔑</span>
+          <span class="nav-label">Token Generator</span>
+        </div>
+        <div class="nav-item" data-tab="users">
+          <span class="nav-icon">👥</span>
+          <span class="nav-label">User Management</span>
+        </div>
+        <div class="nav-item" data-tab="telegram">
+          <span class="nav-icon">✈️</span>
+          <span class="nav-label">Telegram Channel</span>
+        </div>
+        <div class="nav-item" data-tab="logs">
+          <span class="nav-icon">📜</span>
+          <span class="nav-label">Activity & Logs</span>
+        </div>
+        <div class="nav-item" data-tab="settings">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-label">System Health</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <a href="/" target="_blank" class="btn btn-secondary btn-sm" style="font-size: 0.75rem;">
+            Public Site ↗
+          </a>
+          <button class="btn btn-danger btn-sm" onclick="handleAdminLogout()" title="Log out of admin">
+            Logout
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="admin-sidebar-backdrop" class="admin-sidebar-backdrop" onclick="closeAdminSidebar()"></div>
+
+    <!-- Main Viewport -->
+    <main class="admin-main">
+      <!-- Top Bar -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button id="admin-mobile-toggle" class="btn btn-secondary btn-sm admin-mobile-toggle" onclick="toggleAdminSidebar()" aria-label="Toggle Navigation Sidebar" title="Menu">
+            ☰
+          </button>
+          <h2 id="admin-page-title" class="page-title">Overview</h2>
+          <span id="badge-db-mode" class="badge badge-cyan" style="font-size: 0.75rem;">Loading Database...</span>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Official Social Channels -->
+          <a href="https://youtube.com/@techiemuthuraj" target="_blank" rel="noopener noreferrer" class="social-icon-btn btn-youtube" style="padding: 0.35rem 0.65rem; font-size: 0.78rem;" title="YouTube @techiemuthuraj">
+            <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <span>YouTube</span>
+          </a>
+          <a href="https://instagram.com/techiemuthuraj" target="_blank" rel="noopener noreferrer" class="social-icon-btn btn-instagram" style="padding: 0.35rem 0.65rem; font-size: 0.78rem;" title="Instagram @techiemuthuraj">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            <span>Instagram</span>
+          </a>
+          <a href="https://t.me/techiemuthuraj" target="_blank" rel="noopener noreferrer" class="social-icon-btn btn-telegram" style="padding: 0.35rem 0.65rem; font-size: 0.78rem;" title="Telegram @techiemuthuraj">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.3-.6.3l.202-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.838.934z"/></svg>
+            <span>Telegram</span>
+          </a>
+          <button class="btn btn-secondary btn-sm theme-toggle-btn" onclick="toggleTheme()" title="Toggle Theme">
+            ☀️
+          </button>
+          <div style="font-size: 0.85rem; color: var(--text-muted);">
+            Admin: <strong style="color: var(--text-primary);">@techiemuthuraj</strong>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dynamic Tab Content -->
+      <div class="admin-content">
+
+        <!-- ===================================================================
+             TAB 1: OVERVIEW
+             =================================================================== -->
+        <section id="tab-overview" class="admin-tab active">
+          <!-- Metric KPI Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-info">
+                <h4>Total Files</h4>
+                <div class="stat-card-val" id="stat-total-files">0</div>
+              </div>
+              <div class="stat-icon icon-cyan">📦</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-info">
+                <h4>Active Tokens</h4>
+                <div class="stat-card-val" id="stat-active-tokens">0</div>
+              </div>
+              <div class="stat-icon icon-indigo">🔑</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-info">
+                <h4>Total Downloads</h4>
+                <div class="stat-card-val" id="stat-total-downloads">0</div>
+              </div>
+              <div class="stat-icon icon-emerald">⚡</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-info">
+                <h4>Rejected Attempts</h4>
+                <div class="stat-card-val" id="stat-rejected-attempts">0</div>
+              </div>
+              <div class="stat-icon icon-rose">🛡️</div>
+            </div>
+          </div>
+
+          <!-- Top Files & Recent Logs Grid -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+            <!-- Top Files -->
+            <div class="glass-card" style="padding: 1.5rem;">
+              <h3 style="font-size: 1.15rem; margin-bottom: 1rem;">🔥 Most Downloaded Files</h3>
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Downloads</th>
+                  </tr>
+                </thead>
+                <tbody id="overview-top-files">
+                  <tr><td colspan="4" style="text-align: center;">Loading top files...</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="glass-card" style="padding: 1.5rem;">
+              <h3 style="font-size: 1.15rem; margin-bottom: 1rem;">⚡ Recent Access Attempts</h3>
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>File</th>
+                    <th>Token</th>
+                    <th>Status</th>
+                    <th>Client</th>
+                  </tr>
+                </thead>
+                <tbody id="overview-recent-logs">
+                  <tr><td colspan="5" style="text-align: center;">Loading activity...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             TAB 2: FILE MANAGEMENT
+             =================================================================== -->
+        <section id="tab-files" class="admin-tab">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h3 style="font-size: 1.25rem;">File Catalog Management</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Manage downloadable software, APKs, tools, and Telegram mappings.</p>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center;">
+              <button class="btn btn-secondary" onclick="toggleDirectDownloaderCard()" style="display: inline-flex; align-items: center; gap: 0.45rem;">
+                <span style="color: var(--accent-cyan);">⚡</span> Telegram Direct Link Generator
+              </button>
+              <button class="btn btn-primary" onclick="openAddFileModal()">
+                + Add New File
+              </button>
+            </div>
+          </div>
+
+          <!-- Telegram File Direct Download Generator Tool -->
+          <div id="admin-direct-downloader-card" class="glass-card" style="padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid rgba(0, 242, 254, 0.35); background: rgba(10, 15, 30, 0.7);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.65rem;">
+                <span style="font-size: 1.5rem;">⚡</span>
+                <div>
+                  <h4 style="margin: 0; font-size: 1.12rem; color: var(--text-primary);">Telegram File Direct Download Generator</h4>
+                  <p style="margin: 0.2rem 0 0 0; font-size: 0.82rem; color: var(--text-muted);">
+                    Give any Telegram message link (e.g. <code>https://t.me/techiemuthuraj/412</code>) or Bot File ID to generate an instant direct download.
+                  </p>
+                </div>
+              </div>
+              <span class="badge badge-indigo">Bot API & Channel Parser</span>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+              <div style="flex: 1; min-width: 280px; position: relative;">
+                <input type="text" id="admin-tg-direct-input" class="form-control" 
+                  placeholder="https://t.me/techiemuthuraj/412 or Telegram Bot File ID..." 
+                  style="padding-left: 2.3rem; font-family: monospace; font-size: 0.88rem;" />
+                <span style="position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--accent-cyan);">✈️</span>
+              </div>
+              <button class="btn btn-primary" id="admin-tg-direct-btn" onclick="handleGenerateDirectDownload()" style="white-space: nowrap; padding: 0.65rem 1.25rem;">
+                Generate Direct Download ⚡
+              </button>
+            </div>
+
+            <!-- Direct Download Result Box -->
+            <div id="admin-tg-direct-result" style="display: none; margin-top: 1.25rem; background: var(--bg-tertiary); border: 1px solid rgba(0, 242, 254, 0.35); border-radius: var(--radius-md); padding: 1.25rem;">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Batch Actions Toolbar for Files -->
+          <div id="batch-files-bar" class="batch-action-bar" style="display: none;">
+            <div class="batch-count-wrap">
+              <span class="pulse-dot"></span>
+              <span id="batch-files-count">0 files selected</span>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center;">
+              <button type="button" class="btn btn-danger btn-sm" onclick="bulkDeleteSelectedFiles()">
+                🗑️ Delete Selected
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="clearSelectedFiles()">
+                ✕ Deselect
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <div class="table-toolbar">
+              <input type="text" class="form-control table-search-input" placeholder="Search files..." oninput="filterAdminFiles(this.value)" />
+              <button class="btn btn-secondary btn-sm" onclick="loadFilesTab()">↻ Refresh</button>
+            </div>
+
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 44px; text-align: center;">
+                    <input type="checkbox" id="select-all-files" class="custom-checkbox" onchange="toggleSelectAllFiles(this)" title="Select All Files" />
+                  </th>
+                  <th>Code</th>
+                  <th>Title & Source</th>
+                  <th>Category</th>
+                  <th>Format / Size</th>
+                  <th>Source Mode</th>
+                  <th>Downloads</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-files-tbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             TAB 3: TOKEN MANAGEMENT
+             =================================================================== -->
+        <section id="tab-tokens" class="admin-tab">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <div>
+              <h3 style="font-size: 1.25rem;">Cryptographic Token Management</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Issue single-use or limited tokens, set expirations, and revoke access.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openGenerateTokenModal()">
+              🔑 Generate New Token(s)
+            </button>
+          </div>
+
+          <!-- Batch Actions Toolbar for Tokens -->
+          <div id="batch-tokens-bar" class="batch-action-bar" style="display: none;">
+            <div class="batch-count-wrap">
+              <span class="pulse-dot"></span>
+              <span id="batch-tokens-count">0 tokens selected</span>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center;">
+              <button type="button" class="btn btn-warning btn-sm" onclick="bulkRevokeSelectedTokens()" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.45);">
+                🚫 Revoke Selected
+              </button>
+              <button type="button" class="btn btn-danger btn-sm" onclick="bulkDeleteSelectedTokens()">
+                🗑️ Delete Selected
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="clearSelectedTokens()">
+                ✕ Deselect
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <div class="table-toolbar">
+              <input type="text" class="form-control table-search-input" placeholder="Search tokens by preview or user..." oninput="filterAdminTokens(this.value)" />
+              <div style="display: flex; gap: 0.5rem;">
+                <button class="btn btn-secondary btn-sm" onclick="exportTokensAsCSV()">Export CSV</button>
+                <button class="btn btn-secondary btn-sm" onclick="loadTokensTab()">↻ Refresh</button>
+              </div>
+            </div>
+
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 44px; text-align: center;">
+                    <input type="checkbox" id="select-all-tokens" class="custom-checkbox" onchange="toggleSelectAllTokens(this)" title="Select All Tokens" />
+                  </th>
+                  <th>Token Preview</th>
+                  <th>Assigned File</th>
+                  <th>Recipient / Label</th>
+                  <th>Usage Limit</th>
+                  <th>Status</th>
+                  <th>Expiration</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-tokens-tbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             TAB 4: USER MANAGEMENT
+             =================================================================== -->
+        <section id="tab-users" class="admin-tab">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h3 style="font-size: 1.25rem;">User & Subscriber Tracking</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">
+                Monitor token allocations, authentic Telegram ownership, channel subscriptions, and individual download logs per user.
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center;">
+              <button class="btn btn-secondary btn-sm" onclick="loadUsersTab()">
+                ↻ Refresh Users
+              </button>
+            </div>
+          </div>
+
+          <!-- User Tracking Metric Cards -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+            <div class="glass-card" style="padding: 1.15rem; border-left: 3px solid var(--accent-cyan);">
+              <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">TOTAL USERS</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: var(--accent-cyan); margin-top: 0.2rem;" id="users-stat-total">0</div>
+            </div>
+            <div class="glass-card" style="padding: 1.15rem; border-left: 3px solid #10b981;">
+              <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">CHANNEL SUBSCRIBERS</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #10b981; margin-top: 0.2rem;" id="users-stat-members">0</div>
+            </div>
+            <div class="glass-card" style="padding: 1.15rem; border-left: 3px solid #8b5cf6;">
+              <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">ASSIGNED TOKENS</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #8b5cf6; margin-top: 0.2rem;" id="users-stat-tokens">0</div>
+            </div>
+            <div class="glass-card" style="padding: 1.15rem; border-left: 3px solid #f59e0b;">
+              <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">DOWNLOADS CLAIMED</div>
+              <div style="font-size: 1.6rem; font-weight: 800; color: #f59e0b; margin-top: 0.2rem;" id="users-stat-downloads">0</div>
+            </div>
+          </div>
+
+          <!-- Batch Actions Toolbar for Users -->
+          <div id="batch-users-bar" class="batch-action-bar" style="display: none;">
+            <div class="batch-count-wrap">
+              <span class="pulse-dot"></span>
+              <span id="batch-users-count">0 users selected</span>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center;">
+              <button type="button" class="btn btn-danger btn-sm" onclick="bulkDeleteSelectedUsers()">
+                🗑️ Delete Selected
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="clearSelectedUsers()">
+                ✕ Deselect
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <div class="table-toolbar">
+              <input type="text" id="admin-users-search" class="form-control table-search-input" 
+                placeholder="Search users by @handle, name, or Telegram ID..." 
+                oninput="filterAdminUsers(this.value)" />
+              <button class="btn btn-secondary btn-sm" onclick="loadUsersTab()">↻ Refresh</button>
+            </div>
+
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 44px; text-align: center;">
+                    <input type="checkbox" id="select-all-users" class="custom-checkbox" onchange="toggleSelectAllUsers(this)" title="Select All Users" />
+                  </th>
+                  <th>User Identity</th>
+                  <th>Display Name</th>
+                  <th>Telegram ID</th>
+                  <th>Verification & Community</th>
+                  <th>Assigned Tokens</th>
+                  <th>Downloads Claimed</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-tbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             TAB 5: TELEGRAM CHANNEL INTEGRATION
+             =================================================================== -->
+        <section id="tab-telegram" class="admin-tab">
+          <div class="glass-card" style="padding: 1.75rem; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
+              <div>
+                <h3 style="font-size: 1.25rem;">Telegram Bot API Status</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Server-side connection to your Telegram Bot without exposing keys.</p>
+              </div>
+              <span id="tg-bot-status-badge" class="badge badge-neutral">Checking...</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; font-size: 0.9rem;">
+              <div>
+                <strong style="color: var(--text-muted); display: block; font-size: 0.8rem;">BOT USERNAME:</strong>
+                <span id="tg-bot-username" style="color: var(--accent-cyan); font-weight: 600;">Checking...</span>
+              </div>
+              <div>
+                <strong style="color: var(--text-muted); display: block; font-size: 0.8rem;">CHANNEL ID:</strong>
+                <span id="tg-channel-id" style="font-weight: 600;">Checking...</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Telegram Webhook Configuration Card -->
+          <div class="glass-card" style="padding: 1.75rem; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem;">
+              <div>
+                <h3 style="font-size: 1.25rem;">⚡ Telegram Webhook for Bot & Channel</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">
+                  Automatically synchronizes files posted in your channel and handles bot user messages.
+                </p>
+              </div>
+              <span id="tg-webhook-status-badge" class="badge badge-neutral">Checking Webhook...</span>
+            </div>
+
+            <div style="background: var(--bg-tertiary); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-bottom: 1.5rem; font-size: 0.88rem;">
+              <div style="margin-bottom: 0.6rem;">
+                <strong style="color: var(--text-muted);">CURRENT REGISTERED WEBHOOK:</strong>
+                <div id="tg-webhook-current-url" class="mono" style="color: var(--accent-cyan); word-break: break-all; margin-top: 0.2rem;">Not Registered</div>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.75rem; font-size: 0.82rem;">
+                <div>
+                  <span style="color: var(--text-muted);">Pending Updates:</span>
+                  <strong id="tg-webhook-pending" style="color: var(--text-primary);">0</strong>
+                </div>
+                <div>
+                  <span style="color: var(--text-muted);">Last Error:</span>
+                  <span id="tg-webhook-error" style="color: var(--text-muted);">None</span>
+                </div>
+              </div>
+            </div>
+
+            <form onsubmit="handleSetWebhook(event)">
+              <div class="form-group">
+                <label class="form-label">Webhook URL (Public Netlify HTTPS URL)</label>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                  <input type="url" id="tg-webhook-url-input" class="form-control mono" style="flex: 1; min-width: 280px;" placeholder="https://your-site.netlify.app/api/telegram-webhook" required />
+                  <button type="submit" class="btn btn-primary" style="white-space: nowrap;">
+                    🚀 Set Webhook
+                  </button>
+                  <button type="button" class="btn btn-danger" onclick="handleDeleteWebhook()" style="white-space: nowrap;" title="Remove webhook from Telegram">
+                    🗑️ Remove
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 1rem; line-height: 1.6;">
+              💡 <strong>Channel Auto-Sync:</strong> Whenever you post an APK, ZIP, software, or script file in your channel (e.g. <code>@techiemuthuraj</code>), Telegram will push the file metadata to this webhook. The file will be automatically registered in the website catalog with an auto-assigned file code!
+            </div>
+          </div>
+
+          <!-- Map Telegram Post Form -->
+          <div class="glass-card" style="padding: 1.75rem; margin-bottom: 2rem;">
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">🔗 Map Telegram Channel Post to File Catalog</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+              Paste a public Telegram message link (e.g. <code>https://t.me/techiemuthuraj/412</code>) to automatically register it as a downloadable resource.
+            </p>
+
+            <form onsubmit="handleMapTelegramPost(event)">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group" style="grid-column: 1/-1;">
+                  <label class="form-label">Telegram Message Link *</label>
+                  <input type="text" id="tg-post-url" class="form-control" placeholder="https://t.me/techiemuthuraj/123" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Resource Title</label>
+                  <input type="text" id="tg-post-title" class="form-control" placeholder="e.g. NetSpeed Monitor Pro MOD" />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Category</label>
+                  <select id="tg-post-category" class="form-control">
+                    <option value="Software">Software</option>
+                    <option value="APK">APK</option>
+                    <option value="Tools">Tools</option>
+                    <option value="Scripts">Scripts</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">File Type</label>
+                  <select id="tg-post-type" class="form-control">
+                    <option value="APK">APK</option>
+                    <option value="ZIP">ZIP</option>
+                    <option value="EXE">EXE</option>
+                    <option value="PDF">PDF</option>
+                    <option value="PY">PY</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">File Size</label>
+                  <input type="text" id="tg-post-size" class="form-control" placeholder="e.g. 15.4 MB" />
+                </div>
+
+                <div class="form-group" style="grid-column: 1/-1;">
+                  <label class="form-label">External Direct Download URL (Optional Fallback)</label>
+                  <input type="url" id="tg-post-external-url" class="form-control" placeholder="https://..." />
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="margin-top: 0.5rem;">
+                Map & Publish File
+              </button>
+            </form>
+          </div>
+
+          <!-- Telegram Architecture & Limitations Explainer -->
+          <div class="glass-card" style="padding: 1.75rem;">
+            <h4 style="font-size: 1.1rem; margin-bottom: 0.75rem;">ℹ️ Telegram Bot API Technical Limits</h4>
+            <div style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.7;">
+              <ul style="padding-left: 1.25rem;">
+                <li><strong>20 MB File Download Limit:</strong> The standard Telegram Bot API (via <code>getFile</code>) only permits programmatic downloads of files up to 20 MB. Files over 20 MB cannot be streamed through standard bot endpoints.</li>
+                <li><strong>Workaround for Large Files (>20 MB):</strong> Upload large files to cloud storage (e.g. Cloudflare R2, Supabase Storage, Google Drive, AWS S3) and enter the direct URL, or provide the direct channel message link which users can open in Telegram desktop/mobile.</li>
+                <li><strong>Bot Channel Permissions:</strong> Ensure your bot is added as an <strong>Administrator</strong> to your Telegram channel with at least "Post Messages" and "Manage Channel" capabilities.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             TAB 6: ACTIVITY & AUDIT LOGS
+             =================================================================== -->
+        <section id="tab-logs" class="admin-tab">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <div>
+              <h3 style="font-size: 1.25rem;">Security & Download Audit Trail</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Real-time log of token verification attempts, successful downloads, and security events.</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="loadLogsTab()">↻ Refresh Logs</button>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>File Code</th>
+                  <th>Token Preview</th>
+                  <th>Event Status</th>
+                  <th>Client IP Hash</th>
+                </tr>
+              </thead>
+              <tbody id="admin-logs-tbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             TAB 7: SETTINGS & HEALTH
+             =================================================================== -->
+        <section id="tab-settings" class="admin-tab">
+          <div class="glass-card" style="padding: 2rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <h3 style="font-size: 1.25rem; margin-bottom: 0.35rem;">System Configuration & Security Checklist</h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">Real-time health telemetry across cloud database, cryptography, and rate limiters.</p>
+              </div>
+              <button type="button" class="btn btn-primary btn-sm" onclick="pingSupabaseLive(this)" style="display: flex; align-items: center; gap: 0.5rem;">
+                <span id="health-ping-icon">⚡</span>
+                <span id="health-ping-text">Ping Supabase Database</span>
+              </button>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <!-- Supabase Cloud Card -->
+              <div id="health-supabase-card" style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: var(--bg-tertiary); border: 1px solid var(--border-medium); border-radius: var(--radius-md); gap: 1rem; flex-wrap: wrap;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.25rem;">
+                    <span style="font-size: 1.25rem;">⚡</span>
+                    <strong>Supabase Database Persistence</strong>
+                    <span id="health-supabase-badge" class="badge badge-emerald">Connecting...</span>
+                  </div>
+                  <p id="health-supabase-desc" style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.4rem;">
+                    PostgreSQL connection for files, tokens, and audit trails.
+                  </p>
+                  <div id="health-supabase-meta" style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--neon-cyan);">
+                    Endpoint: https://klelgazjpgogsmdrbbql.supabase.co
+                  </div>
+                </div>
+                <div id="health-supabase-stats" style="text-align: right; font-size: 0.85rem; color: var(--text-secondary);">
+                  <div>Files: <strong id="health-file-count" style="color: var(--text-primary);">-</strong></div>
+                  <div>Tokens: <strong id="health-token-count" style="color: var(--text-primary);">-</strong></div>
+                </div>
+              </div>
+
+              <!-- Admin Secret Key -->
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg-tertiary); border-radius: var(--radius-md);">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.2rem;">
+                    <span style="font-size: 1.1rem;">🛡️</span>
+                    <strong>Admin Secret Key</strong>
+                  </div>
+                  <p style="font-size: 0.8rem; color: var(--text-muted);">Configured via <code>ADMIN_SECRET_KEY</code> in environment variables.</p>
+                </div>
+                <span class="badge badge-emerald">Active & Guarded</span>
+              </div>
+
+              <!-- HMAC Token Signer -->
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg-tertiary); border-radius: var(--radius-md);">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.2rem;">
+                    <span style="font-size: 1.1rem;">🔐</span>
+                    <strong>HMAC Download Ticket Signer</strong>
+                  </div>
+                  <p style="font-size: 0.8rem; color: var(--text-muted);">Short-lived 5-minute signed authorization tokens prevent hotlinking.</p>
+                </div>
+                <span class="badge badge-emerald">SHA-256 HMAC Active</span>
+              </div>
+
+              <!-- Rate Limiting Engine -->
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg-tertiary); border-radius: var(--radius-md);">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.2rem;">
+                    <span style="font-size: 1.1rem;">⏱️</span>
+                    <strong>Rate Limiting Engine</strong>
+                  </div>
+                  <p style="font-size: 0.8rem; color: var(--text-muted);">IP-based brute-force prevention on <code>/api/verify-token</code>.</p>
+                </div>
+                <span class="badge badge-emerald">Enabled (15 req/min)</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- =========================================================================
+       MODALS
+       ========================================================================= -->
+
+  <!-- Modal: Admin Authentication Gate -->
+  <div id="admin-auth-modal" class="modal-overlay active">
+    <div class="modal-box admin-auth-box">
+      <div class="admin-auth-header">
+        <div class="auth-shield-emblem">⚡</div>
+        <div class="auth-title-wrap">
+          <h3>Techi Files Console</h3>
+          <div class="auth-security-badge">
+            <span class="pulse-dot"></span>
+            <span>Master Console Security</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-auth-body">
+        <p class="admin-auth-desc">
+          Enter the secret administrator key configured in your environment variables to access the management console.
+        </p>
+
+        <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+          <div class="form-group">
+            <label class="form-label" for="admin-login-key">
+              <span>Admin Secret Key</span>
+              <span class="auth-security-pill">🔒 Root Access</span>
+            </label>
+            <div class="input-wrapper admin-auth-input-wrapper">
+              <span class="input-icon-left">🔑</span>
+              <input
+                type="password"
+                id="admin-login-key"
+                class="form-control admin-key-input"
+                placeholder="Enter ADMIN_SECRET_KEY..."
+                autocomplete="current-password"
+                required
+              />
+              <button
+                type="button"
+                id="admin-pwd-toggle-btn"
+                class="input-icon-right pwd-toggle-btn"
+                onclick="toggleAdminPasswordVisibility()"
+                title="Toggle password visibility"
+                aria-label="Toggle password visibility"
+              >
+                <span id="admin-pwd-toggle-icon">👁️</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="admin-login-error" class="admin-auth-error-banner" style="display: none;"></div>
+
+          <button type="submit" id="admin-login-submit-btn" class="btn btn-primary admin-auth-submit-btn">
+            <span id="admin-btn-icon">🔓</span>
+            <span id="admin-btn-text">Unlock Admin Console</span>
+            <kbd class="enter-kbd-pill">↵ Enter</kbd>
+          </button>
+
+          <div class="enter-shortcut-hint">
+            <span class="pulse-dot"></span>
+            <span>Press <kbd class="kbd-mini">Enter ↵</kbd> key to unlock console directly</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add / Edit File -->
+  <div id="file-crud-modal" class="modal-overlay">
+    <div class="modal-box" style="max-width: 640px;">
+      <div class="modal-header">
+        <h3 id="file-modal-title">Add New File</h3>
+        <span class="modal-close" onclick="closeModal('file-crud-modal')">&times;</span>
+      </div>
+
+      <div class="modal-body">
+        <form onsubmit="handleSaveFileForm(event)">
+          <input type="hidden" id="file-form-id" />
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group" style="grid-column: 1/-1;">
+              <label class="form-label">File Title *</label>
+              <input type="text" id="file-form-title" class="form-control" placeholder="e.g. NetSpeed Monitor Pro v4.2" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">File Code</label>
+              <input type="text" id="file-form-code" class="form-control" placeholder="e.g. TM-APK-901" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select id="file-form-category" class="form-control">
+                <option value="Software">Software</option>
+                <option value="APK">APK</option>
+                <option value="Tools">Tools</option>
+                <option value="Scripts">Scripts</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Format / Type</label>
+              <select id="file-form-type" class="form-control">
+                <option value="APK">APK</option>
+                <option value="ZIP">ZIP</option>
+                <option value="EXE">EXE</option>
+                <option value="PDF">PDF</option>
+                <option value="PY">PY</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">File Size</label>
+              <input type="text" id="file-form-size" class="form-control" placeholder="e.g. 24.5 MB" />
+            </div>
+
+            <div class="form-group" style="grid-column: 1/-1;">
+              <label class="form-label">Description</label>
+              <textarea id="file-form-desc" class="form-control" rows="3" placeholder="Brief technical summary..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">File Source Delivery Mode</label>
+              <select id="file-form-source-type" class="form-control">
+                <option value="direct_url">Direct Secure Cloud URL</option>
+                <option value="telegram_link">Telegram Channel Message Link</option>
+                <option value="telegram_bot">Telegram Bot File ID (proxied)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Source Reference / File ID / Message Link</label>
+              <input type="text" id="file-form-source-ref" class="form-control" placeholder="Telegram URL or file reference..." />
+            </div>
+
+            <div class="form-group" style="grid-column: 1/-1;">
+              <label class="form-label">External Download URL (Cloudflare R2, Drive, Direct CDN)</label>
+              <input type="url" id="file-form-external-url" class="form-control" placeholder="https://..." />
+            </div>
+
+            <div class="form-group" style="grid-column: 1/-1;">
+              <label class="form-label">Preview Image URL</label>
+              <input type="url" id="file-form-preview" class="form-control" placeholder="https://images.unsplash.com/..." />
+            </div>
+          </div>
+
+          <div class="modal-footer" style="padding-left: 0; padding-right: 0; padding-bottom: 0;">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('file-crud-modal')">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save File</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Generate Tokens (Single or Bulk) -->
+  <div id="token-generator-modal" class="modal-overlay">
+    <div class="modal-box" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3>🔑 Generate Access Tokens</h3>
+        <span class="modal-close" onclick="closeModal('token-generator-modal')">&times;</span>
+      </div>
+
+      <div class="modal-body">
+        <form onsubmit="handleGenerateTokensSubmit(event)">
+          <div class="form-group">
+            <label class="form-label">Select File to Authorize *</label>
+            <select id="gen-token-file-select" class="form-control" required></select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label">Number of Tokens (Bulk 1 to 100)</label>
+              <input type="number" id="gen-token-count" class="form-control" min="1" max="100" value="1" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Download Usage Limit</label>
+              <select id="gen-token-limit" class="form-control">
+                <option value="1">Single-Use (1 download)</option>
+                <option value="3">Limited (3 downloads)</option>
+                <option value="5">Limited (5 downloads)</option>
+                <option value="10">Limited (10 downloads)</option>
+                <option value="unlimited">Unlimited Downloads</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Expiration Period</label>
+              <select id="gen-token-expiry" class="form-control">
+                <option value="1">24 Hours</option>
+                <option value="7" selected>7 Days</option>
+                <option value="30">30 Days</option>
+                <option value="never">Never Expires</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Recipient Tag / Identifier (Optional)</label>
+              <input type="text" id="gen-token-user" class="form-control" placeholder="e.g. @telegram_handle or user@email.com" />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">
+            Generate Cryptographically Secure Tokens
+          </button>
+        </form>
+
+        <!-- Output Box for Plaintext Tokens -->
+        <div id="token-gen-output-box" style="display: none; margin-top: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="color: var(--accent-emerald); font-size: 0.9rem;">✓ Tokens Created Successfully:</strong>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-secondary btn-sm" onclick="copyLastGeneratedTokens()">📋 Copy All</button>
+              <button class="btn btn-secondary btn-sm" onclick="exportTokensAsCSV()">📥 Export CSV</button>
+            </div>
+          </div>
+          <div id="token-gen-output-text" class="token-output-area"></div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem;">
+            ⚠️ Plaintext tokens are only shown once right now. The database stores only SHA-256 hashes for security.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: User Details & Complete Activity Tracking -->
+  <div id="admin-user-details-modal" class="modal-overlay">
+    <div class="modal-box" style="max-width: 820px; width: 95%;">
+      <div class="modal-header" style="background: var(--bg-tertiary); border-bottom: 1px solid var(--border-subtle);">
+        <div style="display: flex; align-items: center; gap: 0.85rem;">
+          <div id="modal-user-avatar-badge" style="width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #0088cc, #29b6f6); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; box-shadow: 0 0 15px rgba(0, 136, 204, 0.4);">
+            ✈️
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <h3 id="modal-user-title" style="margin: 0; font-size: 1.25rem;">User Details</h3>
+              <span id="modal-user-status-badge" class="badge badge-emerald">Active</span>
+            </div>
+            <div id="modal-user-subtitle" style="font-size: 0.82rem; color: var(--accent-cyan); font-weight: 600;">@username</div>
+          </div>
+        </div>
+        <span class="modal-close" onclick="closeModal('admin-user-details-modal')">&times;</span>
+      </div>
+
+      <div class="modal-body" style="padding: 1.5rem; max-height: 80vh; overflow-y: auto;">
+        <!-- User Metadata Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+          <div class="glass-card" style="padding: 1rem;">
+            <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">TELEGRAM USER ID</div>
+            <div id="modal-user-tg-id" style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); font-family: monospace; margin-top: 0.2rem;">
+              --
+            </div>
+          </div>
+          <div class="glass-card" style="padding: 1rem;">
+            <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">COMMUNITY MEMBERSHIP</div>
+            <div id="modal-user-channel-status" style="font-size: 1rem; font-weight: 700; color: #10b981; margin-top: 0.2rem;">
+              💎 Channel Member
+            </div>
+          </div>
+          <div class="glass-card" style="padding: 1rem;">
+            <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">AUTHENTICITY VERIFICATION</div>
+            <div id="modal-user-auth-status" style="font-size: 1rem; font-weight: 700; color: var(--accent-cyan); margin-top: 0.2rem;">
+              🛡️ Verified Original
+            </div>
+          </div>
+          <div class="glass-card" style="padding: 1rem;">
+            <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 600;">JOINED / FIRST SEEN</div>
+            <div id="modal-user-created-at" style="font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); margin-top: 0.2rem;">
+              --
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 1: Assigned Access Tokens -->
+        <div style="margin-bottom: 1.75rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h4 style="margin: 0; font-size: 1.05rem; display: flex; align-items: center; gap: 0.45rem;">
+              <span>🔑</span> Assigned Access Tokens
+            </h4>
+            <button class="btn btn-secondary btn-sm" id="modal-user-assign-token-btn" onclick="assignTokenForCurrentModalUser()">
+              + Assign New Token
+            </button>
+          </div>
+          <div class="table-container" style="max-height: 220px; overflow-y: auto;">
+            <table class="data-table" style="font-size: 0.85rem;">
+              <thead>
+                <tr>
+                  <th>Token Preview</th>
+                  <th>Gated File</th>
+                  <th>Usage / Limit</th>
+                  <th>Expiration</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="modal-user-tokens-tbody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 2: Download Activity Logs -->
+        <div style="margin-bottom: 1.75rem;">
+          <h4 style="margin: 0 0 0.75rem 0; font-size: 1.05rem; display: flex; align-items: center; gap: 0.45rem;">
+            <span>📥</span> Download Activity Logs
+          </h4>
+          <div class="table-container" style="max-height: 220px; overflow-y: auto;">
+            <table class="data-table" style="font-size: 0.85rem;">
+              <thead>
+                <tr>
+                  <th>File Title & Code</th>
+                  <th>Timestamp</th>
+                  <th>Status</th>
+                  <th>IP Address Hash</th>
+                </tr>
+              </thead>
+              <tbody id="modal-user-downloads-tbody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section 3: Notes & Moderation -->
+        <div class="glass-card" style="padding: 1.25rem;">
+          <h4 style="margin: 0 0 0.75rem 0; font-size: 1rem; color: var(--text-primary);">
+            📝 Administrator Notes & Moderation
+          </h4>
+          <div class="form-group" style="margin-bottom: 0.85rem;">
+            <label class="form-label">User Notes / Details</label>
+            <textarea id="modal-user-notes-input" class="form-control" rows="2" placeholder="Add custom notes about this user or subscriber..."></textarea>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+            <div style="display: flex; gap: 0.6rem; align-items: center;">
+              <button class="btn btn-secondary btn-sm" id="modal-user-block-toggle-btn" onclick="handleToggleBlockUser()">
+                🚫 Block User
+              </button>
+              <button class="btn btn-danger btn-sm" id="modal-user-delete-btn" onclick="handleDeleteUserFromModal()">
+                🗑️ Remove User Record
+              </button>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="handleSaveUserNotes()">
+              💾 Save User Notes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Custom Cyber Confirmation & Prompt Dialog -->
+  <div id="custom-confirm-modal" class="modal-overlay">
+    <div class="modal-box admin-auth-box" style="max-width: 480px;">
+      <div class="modal-header" style="border-bottom: 1px solid var(--border-subtle); background: var(--bg-tertiary);">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span id="confirm-modal-icon" style="font-size: 1.5rem;">⚠️</span>
+          <h3 id="confirm-modal-title" style="font-size: 1.2rem; font-family: var(--font-hero);">Confirm Action</h3>
+        </div>
+        <span class="modal-close" onclick="closeCyberConfirm(false)">&times;</span>
+      </div>
+
+      <div class="modal-body" style="padding: 1.6rem;">
+        <p id="confirm-modal-message" style="font-size: 0.95rem; color: var(--text-primary); margin-bottom: 0.6rem; line-height: 1.5; font-weight: 500;">
+          Are you sure you want to perform this action?
+        </p>
+        <p id="confirm-modal-detail" style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+          This action will immediately remove the record from Supabase Cloud and cannot be undone.
+        </p>
+
+        <!-- Optional Prompt Input for Reason -->
+        <div id="confirm-modal-input-group" class="form-group" style="display: none; margin-bottom: 1.25rem;">
+          <label id="confirm-modal-input-label" class="form-label">Revocation Reason</label>
+          <input type="text" id="confirm-modal-input-field" class="form-control" placeholder="Enter reason..." />
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeCyberConfirm(false)">
+            Cancel
+          </button>
+          <button type="button" id="confirm-modal-action-btn" class="btn btn-danger" onclick="closeCyberConfirm(true)">
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

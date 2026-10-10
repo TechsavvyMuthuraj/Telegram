@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>File Details & Download Access - Techi Files</title>
+  <meta name="description" content="Verify your authorized access token to download files published by Techi Files (@techiemuthuraj)." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+  
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/portal.css" />
+</head>
+<body>
+
+  <!-- Colorful Ambient Lighting Engine -->
+  <div class="ambient-lighting-engine">
+    <div class="aurora-orb orb-cyan"></div>
+    <div class="aurora-orb orb-magenta"></div>
+    <div class="aurora-orb orb-purple"></div>
+    <div class="aurora-orb orb-emerald"></div>
+    <div class="cyber-grid-texture"></div>
+  </div>
+
+  <!-- Top Navigation Bar -->
+  <header class="portal-header">
+    <div class="brand-container">
+      <a href="/" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none;">
+        <div class="brand-logo-icon">⚡</div>
+        <div class="brand-title">Techi <span>Files</span></div>
+      </a>
+    </div>
+
+    <nav class="header-nav">
+      <a href="/" class="nav-link">← Back to Catalog</a>
+      <a href="https://t.me/techiemuthuraj" target="_blank" rel="noopener noreferrer" class="nav-link">Telegram ↗</a>
+      <a href="https://youtube.com/@techiemuthuraj" target="_blank" rel="noopener noreferrer" class="nav-link">YouTube ↗</a>
+      <a href="https://instagram.com/techiemuthuraj" target="_blank" rel="noopener noreferrer" class="nav-link">Instagram ↗</a>
+      <a href="/admin.html" class="nav-link">Admin Console</a>
+    </nav>
+
+    <div class="header-actions">
+      <!-- YouTube Button -->
+      <a href="https://youtube.com/@techiemuthuraj" target="_blank" rel="noopener noreferrer" class="social-icon-btn btn-youtube" title="Subscribe on YouTube @techiemuthuraj">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        <span>YouTube</span>
+      </a>
+
+      <!-- Instagram Button -->
+      <a href="https://instagram.com/techiemuthuraj" target="_blank" rel="noopener noreferrer" class="social-icon-btn btn-instagram" title="Follow on Instagram @techiemuthuraj">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        <span>Instagram</span>
+      </a>
+
+      <!-- Telegram Button -->
+      <a href="https://t.me/techiemuthuraj" target="_blank" rel="noopener noreferrer" class="social-icon-btn btn-telegram" title="Join Telegram Channel @techiemuthuraj">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.3-.6.3l.202-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.838.934z"/></svg>
+        <span>Join ✈️</span>
+      </a>
+
+      <button class="btn btn-secondary btn-sm theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+        ☀️
+      </button>
+
+      <!-- Mobile Menu Hamburger Button -->
+      <button id="mobile-menu-btn" class="btn btn-secondary btn-sm mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Mobile Menu" title="Menu">
+        ☰
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <nav id="mobile-nav-drawer" class="mobile-nav-drawer">
+    <div class="mobile-nav-links">
+      <a href="/" class="mobile-nav-item" onclick="closeMobileNav()">📦 ← Back to Catalog</a>
+      <a href="/#community" class="mobile-nav-item" onclick="closeMobileNav()">👥 Channel Community (@techiemuthuraj)</a>
+      <a href="/#how-it-works" class="mobile-nav-item" onclick="closeMobileNav()">⚡ How It Works</a>
+      <a href="https://t.me/techiemuthuraj" target="_blank" rel="noopener noreferrer" class="mobile-nav-item" onclick="closeMobileNav()">✈️ Telegram Channel ↗</a>
+      <a href="https://youtube.com/@techiemuthuraj" target="_blank" rel="noopener noreferrer" class="mobile-nav-item" onclick="closeMobileNav()">▶️ YouTube Channel ↗</a>
+      <a href="https://instagram.com/techiemuthuraj" target="_blank" rel="noopener noreferrer" class="mobile-nav-item" onclick="closeMobileNav()">📸 Instagram Profile ↗</a>
+      <a href="/admin.html" class="mobile-nav-item" onclick="closeMobileNav()">🛡️ Admin Console</a>
+    </div>
+  </nav>
+
+  <!-- Main Content Layout -->
+  <main class="container file-page-layout">
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumb">
+      <a href="/">Home</a>
+      <span>/</span>
+      <a href="/#catalog">Catalog</a>
+      <span>/</span>
+      <span id="breadcrumb-file-name" style="color: var(--text-primary); font-weight: 500;">Loading file...</span>
+    </nav>
+
+    <div id="file-details-container">
+      <div class="details-grid">
+        
+        <!-- Left Column: File Specs & Description -->
+        <div class="glass-card file-info-card">
+          <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.75rem;">
+            <span id="file-code-badge" class="badge badge-cyan mono">TM-FILE-000</span>
+            <span id="file-type-badge" class="badge badge-indigo">TYPE</span>
+            <span id="file-category-badge" class="badge badge-neutral">CATEGORY</span>
+          </div>
+
+          <h1 id="file-title" style="font-size: 2rem; margin-bottom: 1rem;">Loading Resource...</h1>
+
+          <!-- Preview Banner -->
+          <div style="border-radius: var(--radius-md); overflow: hidden; max-height: 240px; margin-bottom: 1.5rem; background: var(--bg-tertiary); border: 1px solid var(--border-subtle);">
+            <img id="file-preview-img" src="https://images.unsplash.com/photo-1618401471353-b98aedd04e11?w=800&auto=format&fit=crop&q=80" alt="File preview" style="width: 100%; height: 240px; object-fit: cover;" />
+          </div>
+
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Resource Description</h3>
+          <p id="file-desc" style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 2rem;">
+            Fetching description...
+          </p>
+
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.5rem;">Technical Specifications</h3>
+          <table class="specs-table">
+            <tbody>
+              <tr>
+                <td>File Size</td>
+                <td id="spec-size">Calculating...</td>
+              </tr>
+              <tr>
+                <td>Version</td>
+                <td id="spec-version">1.0.0</td>
+              </tr>
+              <tr>
+                <td>Total Downloads</td>
+                <td id="spec-downloads">0</td>
+              </tr>
+              <tr>
+                <td>Publication Date</td>
+                <td id="spec-date">Loading...</td>
+              </tr>
+              <tr>
+                <td>Access Requirement</td>
+                <td><span class="badge badge-amber">Authorized Token Required</span></td>
+              </tr>
+              <tr>
+                <td>Integrity Status</td>
+                <td><span class="badge badge-emerald">Verified Cryptographic Checksum</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Right Column: Token Verification Box -->
+        <div>
+          <div class="glass-card file-token-card">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+              <span style="font-size: 1.5rem;">🔑</span>
+              <div>
+                <h3 style="font-size: 1.25rem;">Unlock Download</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Enter file-specific access token</p>
+              </div>
+            </div>
+
+            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+              This file is protected with token authorization. Please enter your secret token below to generate an authorized download link.
+            </p>
+
+            <div class="form-group">
+              <label class="form-label">Access Token</label>
+              <div class="token-input-wrapper">
+                <input 
+                  type="text" 
+                  id="page-token-input" 
+                  class="token-input-field" 
+                  placeholder="TM-XXXX-XXXX-XXXX" 
+                  maxlength="32" 
+                  autocomplete="off" 
+                  spellcheck="false"
+                />
+              </div>
+              <div style="font-size: 0.78rem; color: var(--text-muted); text-align: center;">
+                Tokens are single-use or limited-use as set by the author.
+              </div>
+            </div>
+
+            <button id="page-verify-btn" class="btn btn-primary btn-lg" style="width: 100%;" onclick="verifyFileToken()">
+              Verify Token
+            </button>
+
+            <!-- Verification Feedback Alert -->
+            <div id="page-status-alert" class="status-alert"></div>
+
+            <!-- Download Section Unlocked on Success -->
+            <div id="page-download-section" style="display: none;"></div>
+
+            <!-- Help & FAQ snippet -->
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle); font-size: 0.8rem; color: var(--text-muted);">
+              <strong>Where do I get a token?</strong>
+              <p style="margin-top: 0.25rem;">
+                Tokens are distributed to members across our official feeds: <a href="https://t.me/techiemuthuraj" target="_blank">Telegram</a>, <a href="https://youtube.com/@techiemuthuraj" target="_blank">YouTube</a>, and <a href="https://instagram.com/techiemuthuraj" target="_blank">Instagram</a> @techiemuthuraj.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="portal-footer">
+    <div class="footer-content">
+      <div>
+        <strong style="color: var(--text-primary); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+          ⚡ Techi Files
+        </strong>
+        <p style="margin-top: 0.35rem; color: var(--text-muted);">Token-Gated Digital Resource Platform by @techiemuthuraj.</p>
+      </div>
+      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; justify-content: center;">
+        <a href="/">Catalog</a>
+        <a href="https://t.me/techiemuthuraj" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a href="https://youtube.com/@techiemuthuraj" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="https://instagram.com/techiemuthuraj" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="/admin.html">Admin</a>
+      </div>
+    </div>
+    <div>
+      &copy; 2026 Techi Files (@techiemuthuraj). All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/file.js"></script>
+</body>
+</html>

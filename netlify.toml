@@ -1,0 +1,33 @@
+# =============================================================================
+# techiemuthuraj Files - Netlify Production Deployment Configuration
+# =============================================================================
+
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["netlify/functions/utils/**"]
+
+# Rewrite /api/* to /.netlify/functions/*
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Fallback for clean URLs
+[[redirects]]
+  from = "/file/:id"
+  to = "/file.html?id=:id"
+  status = 200
+
+# Security Headers for all responses
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
