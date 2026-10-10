@@ -3,6 +3,7 @@
 // Supabase Client with Resilient Fallback Store & Atomic Locking Semantics
 // =============================================================================
 
+try { require('dotenv').config(); } catch (_) {}
 const { createClient } = require('@supabase/supabase-js');
 const crypto = require('crypto');
 const { hashToken, generateTokenPreview } = require('./crypto');
