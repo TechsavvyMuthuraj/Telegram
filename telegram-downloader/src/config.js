@@ -7,10 +7,10 @@ require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
 const config = {
   port: parseInt(process.env.PORT || '5000', 10),
-  baseUrl: process.env.BASE_URL || `http://localhost:${process.env.PORT || '5000'}`,
+  baseUrl: (process.env.BASE_URL || `http://localhost:${process.env.PORT || '5000'}`).replace(/\/+$/, ''),
   botToken: process.env.TELEGRAM_BOT_TOKEN || '',
   botUsername: process.env.TELEGRAM_BOT_USERNAME || 'techieverifybot',
-  defaultChannel: process.env.DEFAULT_CHANNEL || '@techiestorefiles',
+  defaultChannel: process.env.DEFAULT_CHANNEL || '@techiemuthuraj',
   secretKey: process.env.SECRET_KEY || 'telegram-downloader-default-key-2026',
   streamChunkSize: parseInt(process.env.STREAM_CHUNK_SIZE || '65536', 10),
   downloadTimeoutMs: parseInt(process.env.DOWNLOAD_TIMEOUT_MS || '60000', 10),

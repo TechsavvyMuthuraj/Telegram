@@ -97,10 +97,10 @@ async function runTests() {
   // ---------------------------------------------------------------------------
   // Test 4: Channel Access Verification
   // ---------------------------------------------------------------------------
-  await test('4. Bot can retrieve channel info for @techiestorefiles', async () => {
-    const chat = await getChat('@techiestorefiles');
+  await test('4. Bot can retrieve channel info for @techiemuthuraj', async () => {
+    const chat = await getChat('@techiemuthuraj');
     assert.strictEqual(chat.ok, true);
-    assert.strictEqual(chat.result.username, 'techiestorefiles');
+    assert.strictEqual(chat.result.username, 'techiemuthuraj');
   });
 
   // ---------------------------------------------------------------------------

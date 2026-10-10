@@ -46,7 +46,7 @@ function parseJsonBody(req) {
 function createApiServer() {
   return http.createServer(async (req, res) => {
     const reqUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
-    const pathname = reqUrl.pathname;
+    const pathname = reqUrl.pathname.replace(/\/+/g, '/');
 
     // Handle OPTIONS Preflight
     if (req.method === 'OPTIONS') {

@@ -155,11 +155,13 @@ exports.handler = async (event, context) => {
       // Command: /start with auth code or /login /verify /code
       // Example: /start auth_839201 or /login 839201
       // -----------------------------------------------------------------------
+      const rawDigitsMatch = text.match(/^(?:auth_|tm_)?([0-9]{6})$/i);
       const startAuthMatch = text.match(/^\/start\s+(?:auth_|tm_)?([0-9]{6})/i);
-      const verifyCmdMatch = text.match(/^\/(?:verify|login|code)\s*(?:auth_|tm_)?([0-9]{6})?/i);
+      const verifyCmdMatch = text.match(/^\/(?:verify|login|code|auth)\s*(?:auth_|tm_)?([0-9]{6})/i);
+      const codeMatch = rawDigitsMatch || startAuthMatch || verifyCmdMatch;
 
-      if (startAuthMatch || (verifyCmdMatch && verifyCmdMatch[1])) {
-        const code = startAuthMatch ? startAuthMatch[1] : verifyCmdMatch[1];
+      if (codeMatch && codeMatch[1]) {
+        const code = codeMatch[1];
         const authResult = await verifySessionWithTelegramUser({
           code: code,
           telegramUser: message.from || { id: chatId, first_name: firstName }
@@ -237,7 +239,10 @@ The code <code>${code}</code> is invalid or expired.
       // Command: /login or /verify without code (bot generates PIN for user)
       else if (/^\/(?:login|verify|code|auth)$/i.test(text)) {
         const userHandle = message.from?.username || '';
-        const challenge = createAuthChallenge({ claimedUsername: userHandle });
+        const challenge = createAuthChallenge({ 
+          claimedUsername: userHandle,
+          telegramUser: message.from || { id: chatId, first_name: firstName, username: userHandle }
+        });
         const pinMsg = `
 🔐 <b>Techi Files Login PIN</b>
 
@@ -246,8 +251,8 @@ Your one-time 6-digit login PIN is:
 
 <b>Instructions:</b>
 1. Open <a href="${PORTAL_URL}">Techi Files</a> on your browser.
-2. Click <b>Log In</b> and enter your PIN: <code>${challenge.code}</code>.
-3. Your session will verify automatically!
+2. Enter your 6-digit PIN: <code>${challenge.code}</code> in the login box.
+3. Click <b>Verify PIN & Log In</b>.
 
 <i>Valid for 5 minutes.</i>
         `.trim();

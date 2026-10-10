@@ -538,6 +538,106 @@ function initUserAuth() {
       }
     });
   }
+
+  // Auto-filter and paste handler for 6-digit PIN input
+  const pinInput = document.getElementById('auth-pin-input');
+  const pinClearBtn = document.getElementById('auth-pin-clear-btn');
+  const pinTextClear = document.getElementById('auth-pin-text-clear');
+
+  if (pinInput) {
+    pinInput.addEventListener('input', (e) => {
+      const clean = e.target.value.replace(/[^0-9]/g, '');
+      if (e.target.value !== clean) {
+        e.target.value = clean;
+      }
+      const hasVal = clean.length > 0;
+      if (pinClearBtn) pinClearBtn.style.display = hasVal ? 'inline-flex' : 'none';
+      if (pinTextClear) pinTextClear.style.display = hasVal ? 'inline' : 'none';
+
+      if (clean.length === 6) {
+        submitAuthPinCode();
+      }
+    });
+
+    pinInput.addEventListener('paste', (e) => {
+      setTimeout(() => {
+        const text = pinInput.value;
+        const match = text.match(/\b([0-9]{6})\b/) || text.match(/([0-9]{6})/);
+        if (match) {
+          pinInput.value = match[1];
+          if (pinClearBtn) pinClearBtn.style.display = 'inline-flex';
+          if (pinTextClear) pinTextClear.style.display = 'inline';
+          submitAuthPinCode();
+        }
+      }, 15);
+    });
+  }
+
+  // Clear button & input formatting for Username input
+  const usernameInput = document.getElementById('auth-username-input');
+  const usernameClearBtn = document.getElementById('auth-username-clear-btn');
+  const usernameTextClear = document.getElementById('auth-username-text-clear');
+
+  if (usernameInput) {
+    usernameInput.addEventListener('input', (e) => {
+      let val = e.target.value;
+      if (val.startsWith('@')) {
+        val = val.replace(/^@+/, '');
+        e.target.value = val;
+      }
+      const hasVal = val.trim().length > 0;
+      if (usernameClearBtn) usernameClearBtn.style.display = hasVal ? 'inline-flex' : 'none';
+      if (usernameTextClear) usernameTextClear.style.display = hasVal ? 'inline' : 'none';
+    });
+
+    usernameInput.addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') {
+        startAuthChallenge();
+      }
+    });
+  }
+}
+
+/**
+ * Clear the username input field
+ */
+function clearAuthUsernameInput() {
+  const input = document.getElementById('auth-username-input');
+  const clearBtn = document.getElementById('auth-username-clear-btn');
+  const textClear = document.getElementById('auth-username-text-clear');
+  const errEl = document.getElementById('auth-input-error');
+
+  if (input) {
+    input.value = '';
+    input.focus();
+  }
+  if (clearBtn) clearBtn.style.display = 'none';
+  if (textClear) textClear.style.display = 'none';
+  if (errEl) {
+    errEl.style.display = 'none';
+    errEl.innerText = '';
+  }
+}
+
+/**
+ * Clear the PIN input field
+ */
+function clearAuthPinInput() {
+  const input = document.getElementById('auth-pin-input');
+  const clearBtn = document.getElementById('auth-pin-clear-btn');
+  const textClear = document.getElementById('auth-pin-text-clear');
+  const errEl = document.getElementById('auth-pin-error');
+
+  if (input) {
+    input.value = '';
+    input.focus();
+  }
+  if (clearBtn) clearBtn.style.display = 'none';
+  if (textClear) textClear.style.display = 'none';
+  if (errEl) {
+    errEl.style.display = 'none';
+    errEl.innerText = '';
+  }
 }
 
 /**
@@ -635,9 +735,97 @@ function openLoginModal(enforced = false) {
   resetAuthModal();
   openModal('user-login-modal');
   setTimeout(() => {
-    const input = document.getElementById('auth-username-input');
-    if (input) input.focus();
+    const pinInput = document.getElementById('auth-pin-input');
+    if (pinInput) pinInput.focus();
   }, 200);
+}
+
+/**
+ * Switch Auth Tab between 6-digit PIN and Username Verification
+ */
+function switchAuthTab(tab) {
+  const pinBtn = document.getElementById('auth-tab-pin-btn');
+  const userBtn = document.getElementById('auth-tab-username-btn');
+  const pinPane = document.getElementById('auth-tab-pin-pane');
+  const userPane = document.getElementById('auth-tab-username-pane');
+
+  if (tab === 'pin') {
+    if (pinBtn) pinBtn.classList.add('active');
+    if (userBtn) userBtn.classList.remove('active');
+    if (pinPane) pinPane.style.display = 'block';
+    if (userPane) userPane.style.display = 'none';
+    const pinInput = document.getElementById('auth-pin-input');
+    if (pinInput) setTimeout(() => pinInput.focus(), 60);
+  } else {
+    if (userBtn) userBtn.classList.add('active');
+    if (pinBtn) pinBtn.classList.remove('active');
+    if (userPane) userPane.style.display = 'block';
+    if (pinPane) pinPane.style.display = 'none';
+    const userInput = document.getElementById('auth-username-input');
+    if (userInput) setTimeout(() => userInput.focus(), 60);
+  }
+}
+
+/**
+ * Submit 6-digit PIN code received from Telegram bot
+ */
+async function submitAuthPinCode() {
+  const pinInput = document.getElementById('auth-pin-input');
+  const btn = document.getElementById('auth-pin-submit-btn');
+  const errEl = document.getElementById('auth-pin-error');
+  if (!pinInput) return;
+
+  const pin = pinInput.value.trim().replace(/[^0-9]/g, '');
+
+  if (errEl) {
+    errEl.style.display = 'none';
+    errEl.innerText = '';
+  }
+
+  if (!pin || pin.length !== 6) {
+    if (errEl) {
+      errEl.innerText = 'Please enter a valid 6-digit numeric PIN code.';
+      errEl.style.display = 'block';
+    }
+    pinInput.focus();
+    return;
+  }
+
+  const originalBtnText = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<span>⏳ Verifying PIN...</span>';
+  }
+
+  try {
+    const res = await apiRequest(APP_CONFIG.endpoints.userAuth, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'verify_pin',
+        code: pin
+      })
+    });
+
+    if (!res || !res.success) {
+      throw new Error(res?.error || res?.message || 'Invalid or expired PIN code. Please type /login in @techieverifybot.');
+    }
+
+    if (res.status === 'verified' && res.user) {
+      handleAuthSuccess(res);
+    } else {
+      throw new Error(res.message || 'Verification pending. Please confirm this PIN code in @techieverifybot.');
+    }
+  } catch (err) {
+    if (errEl) {
+      errEl.innerText = err.message || 'Verification failed. Please check the PIN code.';
+      errEl.style.display = 'block';
+    }
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = originalBtnText;
+    }
+  }
 }
 
 /**
@@ -676,6 +864,10 @@ function resetAuthModal() {
     errEl.style.display = 'none';
     errEl.innerText = '';
   }
+
+  clearAuthUsernameInput();
+  clearAuthPinInput();
+  switchAuthTab('pin');
 }
 
 /**
@@ -786,7 +978,12 @@ function handleAuthSuccess(res) {
 
   renderUserAuthState(user);
 
-  document.getElementById('auth-step-verify').style.display = 'none';
+  const stepInput = document.getElementById('auth-step-input');
+  const stepVerify = document.getElementById('auth-step-verify');
+  const stepFake = document.getElementById('auth-step-fake');
+  if (stepInput) stepInput.style.display = 'none';
+  if (stepVerify) stepVerify.style.display = 'none';
+  if (stepFake) stepFake.style.display = 'none';
   document.getElementById('auth-step-success').style.display = 'block';
 
   const successHandleEl = document.getElementById('auth-success-handle');

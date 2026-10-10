@@ -742,6 +742,143 @@ async function executeTestSuite() {
     assert.strictEqual(tgDlRes.isBase64Encoded, true, 'Binary must be base64 encoded for download stream');
   });
 
+  // ---------------------------------------------------------------------------
+  // Test 22: Bot /login issues 6-digit PIN and website verifies via action=verify_pin
+  // ---------------------------------------------------------------------------
+  await runTest('22. Telegram bot /login issues 6-digit PIN and website verify_pin authenticates user', async () => {
+    const userAuthHandler = require('../netlify/functions/user-auth').handler;
+    const { createAuthChallenge } = require('../netlify/functions/utils/auth-sessions');
+
+    // Bot generates a 6-digit PIN for Telegram user @techiemuthuraj
+    const tgUser = { id: 99887766, username: 'techiemuthuraj', first_name: 'Muthuraj' };
+    const challenge = createAuthChallenge({
+      claimedUsername: 'techiemuthuraj',
+      telegramUser: tgUser
+    });
+
+    assert.ok(challenge.code, 'Must generate a 6-digit PIN');
+    assert.strictEqual(challenge.code.length, 6, 'PIN must be 6 digits');
+
+    // User pastes the 6-digit PIN into website login
+    const verifyRes = await userAuthHandler({
+      httpMethod: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        action: 'verify_pin',
+        code: challenge.code
+      })
+    });
+
+    assert.strictEqual(verifyRes.statusCode, 200);
+    const verifyData = JSON.parse(verifyRes.body);
+    assert.strictEqual(verifyData.success, true);
+    assert.strictEqual(verifyData.status, 'verified');
+    assert.strictEqual(verifyData.user.username, 'techiemuthuraj');
+    assert.strictEqual(verifyData.user.is_original, true);
+    assert.strictEqual(verifyData.user.is_channel_member, true);
+    assert.strictEqual(verifyData.user.member_status, 'creator');
+    assert.ok(verifyData.token, 'Must return signed auth session token');
+  });
+
+  // ---------------------------------------------------------------------------
+  // Test 23: Telegram webhook accepts raw 6-digit PIN code to verify session
+  // ---------------------------------------------------------------------------
+  await runTest('23. Telegram webhook accepts raw 6-digit PIN to authenticate session', async () => {
+    const userAuthHandler = require('../netlify/functions/user-auth').handler;
+    const webhookHandler = require('../netlify/functions/telegram-webhook').handler;
+
+    // Website creates a challenge
+    const createRes = await userAuthHandler({
+      httpMethod: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        action: 'create_challenge',
+        username: 'techiemuthuraj'
+      })
+    });
+    assert.strictEqual(createRes.statusCode, 200);
+    const createData = JSON.parse(createRes.body);
+
+    // User sends raw 6 digits to Telegram bot (e.g. "394236")
+    const webhookRes = await webhookHandler({
+      httpMethod: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        update_id: 887766,
+        message: {
+          message_id: 5544,
+          chat: { id: 99887766, type: 'private' },
+          from: { id: 99887766, username: 'techiemuthuraj', first_name: 'Muthuraj' },
+          text: createData.code
+        }
+      })
+    });
+
+    assert.strictEqual(webhookRes.statusCode, 200);
+
+    // Website polling discovers verified session
+    const pollRes = await userAuthHandler({
+      httpMethod: 'GET',
+      headers: {},
+      queryStringParameters: { session_id: createData.session_id }
+    });
+
+    assert.strictEqual(pollRes.statusCode, 200);
+    const pollData = JSON.parse(pollRes.body);
+    assert.strictEqual(pollData.status, 'verified');
+    assert.strictEqual(pollData.user.username, 'techiemuthuraj');
+    assert.strictEqual(pollData.user.member_status, 'creator');
+  });
+
+  // ---------------------------------------------------------------------------
+  // Test 24: Fake/imposter user is rejected when PIN code claimed username differs
+  // ---------------------------------------------------------------------------
+  await runTest('24. Imposter account is rejected when Telegram user differs from claimed username', async () => {
+    const userAuthHandler = require('../netlify/functions/user-auth').handler;
+    const webhookHandler = require('../netlify/functions/telegram-webhook').handler;
+
+    // User claims to be @techiemuthuraj on website
+    const createRes = await userAuthHandler({
+      httpMethod: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        action: 'create_challenge',
+        username: 'techiemuthuraj'
+      })
+    });
+    const createData = JSON.parse(createRes.body);
+
+    // An imposter account @fake_imposter_user tries to verify with the code
+    const webhookRes = await webhookHandler({
+      httpMethod: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        update_id: 887767,
+        message: {
+          message_id: 5545,
+          chat: { id: 11223344, type: 'private' },
+          from: { id: 11223344, username: 'fake_imposter_user', first_name: 'Fake' },
+          text: createData.code
+        }
+      })
+    });
+    assert.strictEqual(webhookRes.statusCode, 200);
+
+    // Website polling discovers rejected_fake
+    const pollRes = await userAuthHandler({
+      httpMethod: 'GET',
+      headers: {},
+      queryStringParameters: { session_id: createData.session_id }
+    });
+
+    assert.strictEqual(pollRes.statusCode, 200);
+    const pollData = JSON.parse(pollRes.body);
+    assert.strictEqual(pollData.status, 'rejected_fake');
+    assert.strictEqual(pollData.is_fake, true);
+    assert.strictEqual(pollData.claimed_username, 'techiemuthuraj');
+    assert.strictEqual(pollData.actual_username, 'fake_imposter_user');
+  });
+
   console.log('\n=============================================================================');
   console.log(`🏁 TEST RESULTS: ${testsPassed} PASSED, ${testsFailed} FAILED`);
   console.log('=============================================================================\n');
