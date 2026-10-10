@@ -554,13 +554,16 @@ async function getTokensAdmin(filters = {}) {
     if (file_id) query = query.eq('file_id', file_id);
     if (status === 'revoked') query = query.eq('is_revoked', true);
     if (status === 'active') query = query.eq('is_revoked', false);
+    query = query.not('user_identifier', 'like', 'AUTH_SESSION%');
 
     const { data, error } = await query;
     if (error) throw error;
     return data;
   }
 
-  let list = inMemoryStore.access_tokens.map(t => {
+  let list = inMemoryStore.access_tokens
+    .filter(t => !t.user_identifier || !t.user_identifier.startsWith('AUTH_SESSION:'))
+    .map(t => {
     const file = inMemoryStore.files.find(f => f.id === t.file_id);
     return {
       ...t,

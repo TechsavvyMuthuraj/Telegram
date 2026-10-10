@@ -94,7 +94,7 @@ exports.handler = async (event, context) => {
         };
       }
 
-      const session = getAuthSession(sessionId);
+      const session = await getAuthSession(sessionId);
       if (!session) {
         return {
           statusCode: 404,
@@ -211,7 +211,7 @@ exports.handler = async (event, context) => {
         }
 
         const cleanPin = String(pinCode).trim().replace(/[^0-9]/g, '');
-        let session = sessionId ? getAuthSession(sessionId) : getAuthSessionByCode(cleanPin);
+        let session = sessionId ? await getAuthSession(sessionId) : await getAuthSessionByCode(cleanPin);
 
         // If not found in local server memory (e.g. running on localhost while bot webhooks go to Netlify)
         if (!session) {

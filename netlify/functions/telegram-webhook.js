@@ -17,7 +17,8 @@ const { hashToken } = require('./utils/crypto');
 const { getSecurityHeaders } = require('./utils/auth-middleware');
 const { 
   verifySessionWithTelegramUser, 
-  createAuthChallenge 
+  createAuthChallenge,
+  saveSessionToSupabase
 } = require('./utils/auth-sessions');
 
 const PORTAL_URL = process.env.PORTAL_URL || 'https://techiefile.netlify.app/';
@@ -243,6 +244,7 @@ The code <code>${code}</code> is invalid or expired.
           claimedUsername: userHandle,
           telegramUser: message.from || { id: chatId, first_name: firstName, username: userHandle }
         });
+        await saveSessionToSupabase(challenge);
         const pinMsg = `
 🔐 <b>Techi Files Login PIN</b>
 
