@@ -474,13 +474,47 @@ async function handleModalVerify() {
 
 let currentAuthSessionId = null;
 let authPollInterval = null;
+let isLoginEnforced = false;
 
 /**
  * Initialize User Authentication state on page load
  */
 function initUserAuth() {
+  // Check if opened natively as a Telegram Mini App
+  if (window.Telegram && window.Telegram.WebApp) {
+    try {
+      const tgApp = window.Telegram.WebApp;
+      tgApp.ready();
+      tgApp.expand();
+
+      const tgUser = tgApp.initDataUnsafe?.user;
+      if (tgUser && (tgUser.username || tgUser.id)) {
+        const username = tgUser.username || `user_${tgUser.id}`;
+        let currentSession = getUserSession();
+        if (!currentSession || currentSession.username !== username) {
+          setUserSession({
+            username: username,
+            telegram_id: tgUser.id,
+            first_name: tgUser.first_name || username,
+            display_name: `${tgUser.first_name || ''} ${tgUser.last_name || ''}`.trim() || username,
+            is_channel_member: true,
+            is_original: true,
+            auth_type: 'telegram_miniapp'
+          });
+        }
+      }
+    } catch (err) {
+      console.warn('[Telegram WebApp] Initialization note:', err);
+    }
+  }
+
   const session = getUserSession();
   renderUserAuthState(session);
+
+  // Enforce Telegram login before accessing root page
+  if (!session || !session.username) {
+    openLoginModal(true);
+  }
 
   // Setup click outside listener for user dropdown
   document.addEventListener('click', (e) => {
@@ -491,6 +525,19 @@ function initUserAuth() {
       dropdown.style.display = 'none';
     }
   });
+
+  // Guard modal backdrop clicks when login is enforced
+  const loginModal = document.getElementById('user-login-modal');
+  if (loginModal) {
+    loginModal.addEventListener('click', (e) => {
+      if (e.target === loginModal && isLoginEnforced) {
+        const cur = getUserSession();
+        if (!cur || !cur.username) {
+          showToast('Please sign in with Telegram first to access Techi Files.', 'warning');
+        }
+      }
+    });
+  }
 }
 
 /**
@@ -563,12 +610,28 @@ function handleUserLogout() {
   const dropdown = document.getElementById('user-dropdown-menu');
   if (dropdown) dropdown.style.display = 'none';
   showToast('Logged out of Techi Files.', 'info');
+  // Re-gate the root page
+  setTimeout(() => {
+    openLoginModal(true);
+  }, 300);
 }
 
 /**
- * Open Login Modal
+ * Open Login Modal (supports enforced gating)
  */
-function openLoginModal() {
+function openLoginModal(enforced = false) {
+  if (typeof enforced === 'boolean') {
+    isLoginEnforced = enforced;
+  } else {
+    const currentSession = getUserSession();
+    isLoginEnforced = (!currentSession || !currentSession.username);
+  }
+
+  const closeBtn = document.getElementById('login-modal-close');
+  const banner = document.getElementById('auth-enforced-banner');
+  if (closeBtn) closeBtn.style.display = isLoginEnforced ? 'none' : 'block';
+  if (banner) banner.style.display = isLoginEnforced ? 'block' : 'none';
+
   resetAuthModal();
   openModal('user-login-modal');
   setTimeout(() => {
@@ -580,7 +643,13 @@ function openLoginModal() {
 /**
  * Close Login Modal
  */
-function closeLoginModal() {
+function closeLoginModal(force = false) {
+  const currentSession = getUserSession();
+  if (!force && isLoginEnforced && (!currentSession || !currentSession.username)) {
+    showToast('Please sign in with Telegram first to access Techi Files.', 'warning');
+    return;
+  }
+  isLoginEnforced = false;
   stopAuthPolling();
   closeModal('user-login-modal');
 }
@@ -729,12 +798,16 @@ function handleAuthSuccess(res) {
       : '✈️ Telegram Channel Subscriber';
   }
 
+  isLoginEnforced = false;
+  const closeBtn = document.getElementById('login-modal-close');
+  if (closeBtn) closeBtn.style.display = 'block';
+
   showToast(`Authenticated as @${user.username}!`, 'success');
 
-  // Auto-close modal after brief celebration
+  // Auto-close modal after brief celebration and reveal full root page
   setTimeout(() => {
-    closeLoginModal();
-  }, 2500);
+    closeLoginModal(true);
+  }, 2000);
 }
 
 /**
@@ -752,41 +825,6 @@ function handleAuthFakeDetected(res) {
   if (actualEl) actualEl.innerText = `@${res.actual_username}`;
   if (reasonEl) {
     reasonEl.innerText = `You entered @${res.claimed_username}, but the Telegram account that tapped Start was @${res.actual_username}!`;
-  }
-}
-
-/**
- * Simulate Verification for Development & Live Demonstration
- */
-async function simulateTestVerification(simulateFake = false) {
-  if (!currentAuthSessionId) return;
-  const statusEl = document.getElementById('auth-live-status-text');
-  if (statusEl) {
-    statusEl.innerText = simulateFake 
-      ? 'Simulating imposter detection test...' 
-      : 'Simulating genuine user verification...';
-  }
-
-  try {
-    const res = await apiRequest(APP_CONFIG.endpoints.userAuth, {
-      method: 'POST',
-      body: JSON.stringify({
-        action: 'simulate_verify',
-        session_id: currentAuthSessionId,
-        simulate_fake: simulateFake,
-        fake_username: 'imposter_bot_99'
-      })
-    });
-
-    if (res && res.isFake) {
-      stopAuthPolling();
-      handleAuthFakeDetected(res);
-    } else if (res && res.success) {
-      stopAuthPolling();
-      handleAuthSuccess(res);
-    }
-  } catch (err) {
-    console.error('Simulation error:', err);
   }
 }
 

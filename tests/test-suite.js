@@ -189,7 +189,7 @@ async function executeTestSuite() {
     const tokenHash = hashToken(rawToken);
 
     await createAccessTokens([{
-      id: 'revoked-test-id',
+      id: require('crypto').randomUUID(),
       file_id: testFileA.id,
       token_hash: tokenHash,
       token_preview: 'TM-TEST-****-REVK',

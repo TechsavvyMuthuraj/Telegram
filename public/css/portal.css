@@ -1737,44 +1737,7 @@
   text-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
 }
 
-.auth-test-toolbar {
-  margin-top: 1.15rem;
-  padding-top: 0.85rem;
-  border-top: 1px dashed var(--border-subtle);
-  text-align: center;
-}
 
-.test-btn-pass {
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.4);
-  color: #10b981;
-  font-size: 0.75rem;
-  padding: 0.35rem 0.7rem;
-  cursor: pointer;
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
-}
-
-.test-btn-pass:hover {
-  background: rgba(16, 185, 129, 0.25);
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
-}
-
-.test-btn-fail {
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.4);
-  color: #ef4444;
-  font-size: 0.75rem;
-  padding: 0.35rem 0.7rem;
-  cursor: pointer;
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
-}
-
-.test-btn-fail:hover {
-  background: rgba(239, 68, 68, 0.25);
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
-}
 
 .success-checkmark-glow {
   font-size: 3.2rem;

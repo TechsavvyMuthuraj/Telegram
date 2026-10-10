@@ -103,8 +103,8 @@ function createAuthChallenge({ claimedUsername = '', clientIp = '' }) {
     claimedUsername: cleanUsername,
     expiresAt,
     expiresInSeconds: Math.floor(SESSION_TTL_MS / 1000),
-    deepLink: `https://t.me/TechieGuyBot?start=auth_${code}`,
-    botUsername: 'TechieGuyBot'
+    deepLink: `https://t.me/${process.env.TELEGRAM_BOT_USERNAME || 'techieverifybot'}?start=auth_${code}`,
+    botUsername: process.env.TELEGRAM_BOT_USERNAME || 'techieverifybot'
   };
 }
 

@@ -13,6 +13,9 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="/css/style.css" />
   <link rel="stylesheet" href="/css/portal.css" />
+
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
@@ -495,8 +498,11 @@
           <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem;">
             Automatic Ownership Verification & Anti-Imposter Protection
           </div>
+          <div id="auth-enforced-banner" style="display: none; background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 8px; padding: 0.45rem 0.75rem; margin-top: 0.6rem; font-size: 0.8rem; color: #60a5fa;">
+            <span style="margin-right: 0.35rem;">🔒</span><strong>Login Required:</strong> Sign in with Telegram to access the catalog and files.
+          </div>
         </div>
-        <span class="modal-close" onclick="closeLoginModal()">&times;</span>
+        <span class="modal-close" id="login-modal-close" onclick="closeLoginModal()">&times;</span>
       </div>
 
       <div class="modal-body">
@@ -571,7 +577,7 @@
           <!-- Or PIN Code Card -->
           <div class="auth-pin-card">
             <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.35rem;">
-              Or send code to <strong>@TechieGuyBot</strong>:
+              Or send code to <strong>@techieverifybot</strong>:
             </div>
             <div class="auth-pin-display-row">
               <div class="auth-pin-code mono" id="auth-display-code">------</div>
@@ -581,21 +587,6 @@
             </div>
             <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem;">
               Send <code>/login <span id="auth-code-sub"></span></code> in the bot.
-            </div>
-          </div>
-
-          <!-- Simulation / Dev Test Controls -->
-          <div class="auth-test-toolbar">
-            <div style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600;">
-              🧪 LOCAL VERIFICATION TEST TOOLS:
-            </div>
-            <div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
-              <button class="btn btn-sm test-btn-pass" onclick="simulateTestVerification(false)" title="Test genuine original owner verification">
-                ✅ Simulate Genuine User
-              </button>
-              <button class="btn btn-sm test-btn-fail" onclick="simulateTestVerification(true)" title="Test fake imposter detection">
-                🚫 Test Imposter Detection
-              </button>
             </div>
           </div>
         </div>

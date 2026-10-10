@@ -20,6 +20,8 @@ const {
   createAuthChallenge 
 } = require('./utils/auth-sessions');
 
+const PORTAL_URL = process.env.PORTAL_URL || 'https://techiefile.netlify.app/';
+
 /**
  * Format bytes into human readable string (e.g. 14.5 MB)
  */
@@ -178,7 +180,7 @@ To prevent unauthorized access and protect community members, users may only aut
           await sendTelegramMessage(chatId, fakeMsg, {
             reply_markup: {
               inline_keyboard: [
-                [{ text: '🌐 Return to Techi Files', url: 'https://techiemuthuraj.com/' }]
+                [{ text: '🌐 Return to Techi Files', url: PORTAL_URL }]
               ]
             }
           });
@@ -203,7 +205,7 @@ You can switch back to your browser now. Your download privileges and token acce
             reply_markup: {
               inline_keyboard: [
                 [
-                  { text: '⚡ Open Techi Files Portal', url: 'https://techiemuthuraj.com/' },
+                  { text: '⚡ Open Techi Files Portal', url: PORTAL_URL },
                   { text: '✈️ Official Channel', url: 'https://t.me/techiemuthuraj' }
                 ]
               ]
@@ -225,7 +227,7 @@ The code <code>${code}</code> is invalid or expired.
           await sendTelegramMessage(chatId, notFoundMsg, {
             reply_markup: {
               inline_keyboard: [
-                [{ text: '🌐 Open Website', url: 'https://techiemuthuraj.com/' }]
+                [{ text: '🌐 Open Website', url: PORTAL_URL }]
               ]
             }
           });
@@ -243,7 +245,7 @@ Your one-time 6-digit login PIN is:
 👉 <pre><code>${challenge.code}</code></pre>
 
 <b>Instructions:</b>
-1. Open <a href="https://techiemuthuraj.com/">Techi Files</a> on your browser.
+1. Open <a href="${PORTAL_URL}">Techi Files</a> on your browser.
 2. Click <b>Log In</b> and enter your PIN: <code>${challenge.code}</code>.
 3. Your session will verify automatically!
 
@@ -253,7 +255,7 @@ Your one-time 6-digit login PIN is:
         await sendTelegramMessage(chatId, pinMsg, {
           reply_markup: {
             inline_keyboard: [
-              [{ text: '🌐 Open Web Portal', url: 'https://techiemuthuraj.com/' }]
+              [{ text: '🌐 Open Web Portal', url: PORTAL_URL }]
             ]
           }
         });
@@ -279,7 +281,7 @@ Send /login to get an instant 6-digit login PIN for the website.
           reply_markup: {
             inline_keyboard: [
               [
-                { text: '🌐 Open File Portal', url: 'https://techiemuthuraj.com/' },
+                { text: '🌐 Open File Portal', url: PORTAL_URL },
                 { text: '✈️ Official Channel', url: 'https://t.me/techiemuthuraj' }
               ],
               [
@@ -305,7 +307,7 @@ Send /login to get an instant 6-digit login PIN for the website.
         await sendTelegramMessage(chatId, catalogText, {
           reply_markup: {
             inline_keyboard: [
-              [{ text: '🔑 Unlock File on Web', url: 'https://techiemuthuraj.com/' }]
+              [{ text: '🔑 Unlock File on Web', url: PORTAL_URL }]
             ]
           }
         });
@@ -332,7 +334,7 @@ Send /login to get an instant 6-digit login PIN for the website.
 🔑 <b>Access Token Detected!</b>
 
 Tokens are verified securely on our web portal to deliver your file directly:
-👉 <b><a href="https://techiemuthuraj.com/">Open techiemuthuraj Files</a></b>
+👉 <b><a href="${PORTAL_URL}">Open Techi Files</a></b>
 
 Paste your token in the verification box to claim your download!
         `.trim();

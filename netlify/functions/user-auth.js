@@ -207,32 +207,6 @@ exports.handler = async (event, context) => {
         };
       }
 
-      // ACTION C: Simulation Verification (Dev / Testing / Demo)
-      if (action === 'simulate_verify') {
-        const sessionId = body.session_id;
-        const isFake = Boolean(body.simulate_fake);
-        const imposterUsername = body.fake_username || 'imposter_user';
-
-        if (!sessionId) {
-          return {
-            statusCode: 400,
-            headers,
-            body: JSON.stringify({ success: false, error: 'Missing session_id' })
-          };
-        }
-
-        const result = await simulateVerification(sessionId, {
-          simulateFake: isFake,
-          fakeActualUsername: imposterUsername
-        });
-
-        return {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify(result)
-        };
-      }
-
       return {
         statusCode: 400,
         headers,

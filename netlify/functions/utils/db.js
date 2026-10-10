@@ -293,10 +293,18 @@ async function createFile(fileData) {
   if (isLiveSupabase) {
     const { data, error } = await supabaseClient
       .from('files')
-      .insert(newFile)
+      .upsert(newFile, { onConflict: 'file_code' })
       .select()
       .single();
-    if (error) throw error;
+    if (error) {
+      const { data: existing } = await supabaseClient
+        .from('files')
+        .select('*')
+        .eq('file_code', newFile.file_code)
+        .maybeSingle();
+      if (existing) return existing;
+      throw error;
+    }
     return data;
   }
 
