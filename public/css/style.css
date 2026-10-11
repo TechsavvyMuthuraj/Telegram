@@ -846,9 +846,13 @@ textarea.form-control {
    UNIVERSAL MOBILE RESPONSIVE & CENTERING FOUNDATIONS
    ============================================================================= */
 html, body {
-  overflow-x: hidden;
-  max-width: 100vw;
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+  margin: 0;
+  padding: 0;
   -webkit-text-size-adjust: 100%;
+  box-sizing: border-box;
 }
 
 .container {
@@ -881,9 +885,19 @@ html, body {
 }
 
 @media (max-width: 768px) {
+  /* Prevent any long button text from breaking out horizontally */
+  .btn {
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+    max-width: 100%;
+  }
+
   .container {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+    overflow-x: clip;
+    max-width: 100vw;
   }
 
   .modal-overlay {
@@ -935,6 +949,13 @@ html, body {
     min-width: 0;
     width: 100%;
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
   }
 }
 
