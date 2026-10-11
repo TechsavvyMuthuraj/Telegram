@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | Techi Files & Techie Post Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/portal.css">
+  <style>
+    .privacy-container {
+      max-width: 860px;
+      margin: 3rem auto;
+      padding: 2.5rem;
+      background: var(--card-bg, rgba(17, 24, 39, 0.7));
+      border: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+      border-radius: var(--radius-lg, 16px);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    .privacy-header {
+      border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.1));
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .privacy-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-primary, #ffffff);
+      margin-bottom: 0.5rem;
+    }
+    .privacy-section {
+      margin-bottom: 2rem;
+    }
+    .privacy-section h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent-cyan, #00f2fe);
+      margin-bottom: 0.75rem;
+    }
+    .privacy-section p, .privacy-section li {
+      color: var(--text-secondary, #94a3b8);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+    .privacy-section ul {
+      padding-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+    .badge-secure {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.8rem;
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      border-radius: 9999px;
+      color: #00f2fe;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="privacy-container">
+    <div class="privacy-header">
+      <div class="badge-secure">🛡️ Cryptographically Gated & Privacy-First</div>
+      <h1>Privacy Policy</h1>
+      <p style="color: var(--text-muted, #64748b); font-size: 0.85rem;">Last updated: October 2026 • Effective for Techi Files & @TechiePostManagerBot</p>
+    </div>
+
+    <div class="privacy-section">
+      <h2>1. Overview</h2>
+      <p>This Privacy Policy explains how <b>Techi Files</b> and the <b>Techie Post Manager Telegram Bot (@TechiePostManagerBot)</b> operate in full compliance with privacy standards and community safety guidelines managed by <b>@techiemuthuraj</b>.</p>
+    </div>
+
+    <div class="privacy-section">
+      <h2>2. Information We Process</h2>
+      <p>We believe in minimal data footprint. We only process data required to deliver requested digital files and authenticate legitimate channel subscribers:</p>
+      <ul>
+        <li><b>Telegram Identity:</b> User ID, username, and public display name provided via Telegram Bot API when verifying channel membership.</li>
+        <li><b>Access Tokens:</b> Cryptographically hashed tokens (`TM-XXXX...`) used to unlock verified files.</li>
+        <li><b>IP Hashes:</b> For DDoS mitigation and rate-limiting, IP addresses are irreversibly hashed with cryptographic salt (SHA-256). Plain IP addresses are never permanently retained.</li>
+        <li><b>Channel Post Drafts:</b> Content drafts composed by authorized administrators are stored temporarily to facilitate multi-step publishing.</li>
+      </ul>
+    </div>
+
+    <div class="privacy-section">
+      <h2>3. Third-Party Services & Infrastructure</h2>
+      <p>Our service runs on secure, isolated cloud architecture:</p>
+      <ul>
+        <li><b>Telegram Bot API:</b> For chat command delivery, inline menus, and channel broadcasting.</li>
+        <li><b>Supabase PostgreSQL:</b> Enterprise-grade encrypted database hosting for file catalog metadata.</li>
+        <li><b>Netlify Serverless:</b> HTTPS-encrypted edge execution with strict security headers.</li>
+      </ul>
+    </div>
+
+    <div class="privacy-section">
+      <h2>4. Data Retention & Deletion</h2>
+      <p>Users have the right to request deletion of access history at any time. Administrators have real-time controls in the Admin Console to purge logs, reset counters, and delete inactive sessions with one click.</p>
+    </div>
+
+    <div class="privacy-section">
+      <h2>5. Contact & Support</h2>
+      <p>If you have any questions regarding privacy or data handling, contact us via Telegram at <b><a href="https://t.me/techiemuthuraj" style="color: var(--accent-cyan, #00f2fe);">@techiemuthuraj</a></b> or visit <b><a href="https://techsavvymuthuraj.dev/" style="color: var(--accent-cyan, #00f2fe);">techsavvymuthuraj.dev</a></b>.</p>
+    </div>
+
+    <div style="margin-top: 2.5rem; pt-4; border-top: 1px solid var(--border-color, rgba(255, 255, 255, 0.1)); display: flex; justify-content: space-between; align-items: center; flex-wrap: gap: 1rem;">
+      <a href="/" class="btn btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; border-radius: 8px; background: #00f2fe; color: #000; font-weight: 700;">
+        ⚡ Back to Techi Files
+      </a>
+      <a href="https://t.me/TechiePostManagerBot" target="_blank" style="text-decoration: none; color: var(--text-muted, #94a3b8); font-size: 0.9rem;">
+        🤖 Open @TechiePostManagerBot ↗
+      </a>
+    </div>
+  </div>
+</body>
+</html>
