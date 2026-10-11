@@ -1878,3 +1878,76 @@ function downloadTextFile(content, filename, mimeType = 'text/plain') {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
+
+// =============================================================================
+// DATABASE REALTIME RESET & CLEAN DATA SUITE
+// =============================================================================
+function openResetModal(mode = 'all') {
+  const modal = document.getElementById('modal-reset-db');
+  if (!modal) return;
+
+  const optLogs = document.getElementById('reset-opt-logs');
+  const optTest = document.getElementById('reset-opt-test-files');
+  const optStats = document.getElementById('reset-opt-stats');
+
+  if (mode === 'logs') {
+    if (optLogs) optLogs.checked = true;
+    if (optTest) optTest.checked = false;
+    if (optStats) optStats.checked = false;
+  } else {
+    if (optLogs) optLogs.checked = true;
+    if (optTest) optTest.checked = true;
+    if (optStats) optStats.checked = true;
+  }
+
+  modal.classList.add('active');
+}
+
+function closeResetModal() {
+  const modal = document.getElementById('modal-reset-db');
+  if (modal) modal.classList.remove('active');
+}
+
+async function executeDatabaseReset() {
+  const optLogs = document.getElementById('reset-opt-logs')?.checked;
+  const optTest = document.getElementById('reset-opt-test-files')?.checked;
+  const optStats = document.getElementById('reset-opt-stats')?.checked;
+
+  const btn = document.getElementById('execute-reset-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerText = '⏳ Resetting in Supabase...';
+  }
+
+  try {
+    const res = await apiRequest(APP_CONFIG.endpoints.adminReset, {
+      method: 'POST',
+      body: JSON.stringify({
+        reset_logs: optLogs,
+        reset_test_files: optTest,
+        reset_stats: optStats
+      })
+    });
+
+    if (res && res.success) {
+      showToast('Database reset & synchronized successfully!', 'success');
+      closeResetModal();
+
+      // Refresh Overview, Files, Logs, and Settings in real-time
+      await loadOverviewTab();
+      if (document.getElementById('tab-files')?.classList.contains('active')) await loadFilesTab();
+      if (document.getElementById('tab-logs')?.classList.contains('active')) await loadLogsTab();
+      if (document.getElementById('tab-settings')?.classList.contains('active')) await loadSettingsTab();
+    } else {
+      showToast(res?.error || 'Failed to execute reset', 'error');
+    }
+  } catch (err) {
+    showToast(`Reset error: ${err.message}`, 'error');
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerText = '🧹 Execute Realtime Reset';
+    }
+  }
+}
+

@@ -123,6 +123,22 @@
              TAB 1: OVERVIEW
              =================================================================== -->
         <section id="tab-overview" class="admin-tab active">
+          <!-- Overview Controls & Realtime Sync Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.2rem;">Live Realtime Overview</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Real-time metrics synchronized directly with Supabase PostgreSQL.</p>
+            </div>
+            <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+              <button class="btn btn-secondary btn-sm" onclick="loadOverviewTab()" title="Sync real-time data from Supabase">
+                ↻ Sync Realtime
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="openResetModal('all')" style="border: 1px solid rgba(0, 242, 254, 0.4); background: rgba(0, 242, 254, 0.08); color: var(--neon-cyan);">
+                ⚙️ Reset & Clean Data
+              </button>
+            </div>
+          </div>
+
           <!-- Metric KPI Cards -->
           <div class="stats-grid">
             <div class="stat-card">
@@ -596,7 +612,10 @@
               <h3 style="font-size: 1.25rem;">Security & Download Audit Trail</h3>
               <p style="font-size: 0.85rem; color: var(--text-muted);">Real-time log of token verification attempts, successful downloads, and security events.</p>
             </div>
-            <button class="btn btn-secondary btn-sm" onclick="loadLogsTab()">↻ Refresh Logs</button>
+            <div style="display: flex; gap: 0.6rem; align-items: center;">
+              <button class="btn btn-secondary btn-sm" onclick="loadLogsTab()">↻ Refresh Logs</button>
+              <button class="btn btn-danger btn-sm" onclick="openResetModal('logs')" style="background: rgba(244, 63, 94, 0.15); border-color: rgba(244, 63, 94, 0.4); color: #fb7185;">🧹 Clear All Logs</button>
+            </div>
           </div>
 
           <div class="table-container">
@@ -689,6 +708,31 @@
                   <p style="font-size: 0.8rem; color: var(--text-muted);">IP-based brute-force prevention on <code>/api/verify-token</code>.</p>
                 </div>
                 <span class="badge badge-emerald">Enabled (15 req/min)</span>
+              </div>
+
+              <!-- Database Clean State & Reset Manager -->
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.25rem; background: linear-gradient(135deg, rgba(244, 63, 94, 0.08) 0%, rgba(14, 21, 38, 0.95) 100%); border: 1px solid rgba(244, 63, 94, 0.35); border-radius: var(--radius-md); gap: 1rem; flex-wrap: wrap;">
+                <div>
+                  <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.25rem;">
+                    <span style="font-size: 1.2rem;">🧹</span>
+                    <strong style="color: #fb7185;">Database Realtime Reset & Data Purge</strong>
+                    <span class="badge badge-rose">Admin Protected</span>
+                  </div>
+                  <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.25rem;">
+                    Purge dummy test logs, reset download counts to 0, or clean unlinked test records in Supabase.
+                  </p>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">
+                    Direct synchronization with live PostgreSQL instance.
+                  </div>
+                </div>
+                <div style="display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap;">
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="openResetModal('logs')">
+                    Clear Logs Only
+                  </button>
+                  <button type="button" class="btn btn-danger btn-sm" onclick="openResetModal('all')">
+                    🧹 Open Reset Suite
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1047,6 +1091,62 @@
               💾 Save User Notes
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+  <!-- Modal: Reset & Clean Database Details -->
+  <div id="modal-reset-db" class="modal-overlay">
+    <div class="modal-box admin-auth-box" style="max-width: 520px;">
+      <div class="modal-header" style="border-bottom: 1px solid var(--border-subtle); background: var(--bg-tertiary);">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span style="font-size: 1.5rem;">🧹</span>
+          <h3 style="font-size: 1.2rem; font-family: var(--font-hero);">Reset & Clean Database Details</h3>
+        </div>
+        <span class="modal-close" onclick="closeResetModal()">&times;</span>
+      </div>
+
+      <div class="modal-body" style="padding: 1.6rem;">
+        <p style="font-size: 0.92rem; color: var(--text-primary); margin-bottom: 0.85rem; line-height: 1.5;">
+          Select the data categories you want to purge or reset from your live Supabase database:
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
+          <label style="display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); cursor: pointer;">
+            <input type="checkbox" id="reset-opt-logs" class="custom-checkbox" checked style="margin-top: 2px;" />
+            <div>
+              <strong style="color: var(--text-primary); font-size: 0.9rem;">Purge Access & Download Logs</strong>
+              <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">Deletes all access attempt logs and clears the "Rejected Attempts" counter back to 0.</div>
+            </div>
+          </label>
+
+          <label style="display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); cursor: pointer;">
+            <input type="checkbox" id="reset-opt-test-files" class="custom-checkbox" checked style="margin-top: 2px;" />
+            <div>
+              <strong style="color: var(--text-primary); font-size: 0.9rem;">Delete Test & Mock Records</strong>
+              <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">Removes any generated test files (TM-TEST-*) and test tokens. Preserves your 4 official resources.</div>
+            </div>
+          </label>
+
+          <label style="display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); cursor: pointer;">
+            <input type="checkbox" id="reset-opt-stats" class="custom-checkbox" checked style="margin-top: 2px;" />
+            <div>
+              <strong style="color: var(--text-primary); font-size: 0.9rem;">Reset Download Counters to 0</strong>
+              <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.15rem;">Resets total downloads count on all files back to 0 for a clean fresh start.</div>
+            </div>
+          </label>
+        </div>
+
+        <div style="background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); border-radius: var(--radius-sm); padding: 0.75rem; margin-bottom: 1.5rem; font-size: 0.8rem; color: #fb7185;">
+          ⚠️ <strong>Notice:</strong> This immediately updates your live Supabase database in real-time. This action cannot be undone.
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeResetModal()">
+            Cancel
+          </button>
+          <button type="button" id="execute-reset-btn" class="btn btn-danger" onclick="executeDatabaseReset()">
+            🧹 Execute Realtime Reset
+          </button>
         </div>
       </div>
     </div>

@@ -20,7 +20,8 @@ const APP_CONFIG = {
     channelInfo: '/api/channel-info',
     auth: '/api/auth',
     userAuth: '/api/user-auth',
-    telegramDirectDownload: '/api/telegram-direct-download'
+    telegramDirectDownload: '/api/telegram-direct-download',
+    adminReset: '/api/admin-reset'
   }
 };
 

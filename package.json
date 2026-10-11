@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
+    "bot": "node post-manager/bot-runner.js",
     "test": "node tests/test-suite.js"
   },
   "keywords": [

@@ -1032,6 +1032,70 @@ async function testSupabaseConnection() {
   }
 }
 
+/**
+ * Admin: Reset system details, purge test files, and clean logs in Supabase
+ */
+async function resetSystemData(options = {}) {
+  const { reset_logs = true, reset_test_files = true, reset_stats = true, reset_all = false } = options;
+  const results = { logs_cleared: 0, test_files_deleted: 0, stats_reset: false };
+
+  if (isLiveSupabase && supabaseClient) {
+    // 1. Clear access and download logs
+    if (reset_logs || reset_all) {
+      const { error: logErr } = await supabaseClient
+        .from('download_logs')
+        .delete()
+        .neq('id', '00000000-0000-0000-0000-000000000000');
+      if (!logErr) results.logs_cleared = true;
+    }
+
+    // 2. Delete test tokens and temporary auth session challenges
+    if (reset_test_files || reset_all) {
+      await supabaseClient
+        .from('access_tokens')
+        .delete()
+        .or('token_preview.like.TM-TEST%,user_identifier.like.AUTH_SESSION%');
+    }
+
+    // 3. Delete test files
+    if (reset_test_files || reset_all) {
+      const { data: deletedFiles } = await supabaseClient
+        .from('files')
+        .delete()
+        .or('file_code.like.TM-TEST%,title.ilike.%TurboSpeed%')
+        .select('file_code');
+      results.test_files_deleted = deletedFiles?.length || 0;
+    }
+
+    // 4. Reset download counters to 0
+    if (reset_stats || reset_all) {
+      await supabaseClient
+        .from('files')
+        .update({ download_count: 0 })
+        .neq('id', '00000000-0000-0000-0000-000000000000');
+      results.stats_reset = true;
+    }
+
+    return { success: true, mode: 'live_supabase', ...results };
+  }
+
+  // In-memory store reset
+  if (reset_logs || reset_all) {
+    inMemoryStore.download_logs = [];
+    results.logs_cleared = true;
+  }
+  if (reset_test_files || reset_all) {
+    inMemoryStore.files = inMemoryStore.files.filter(f => !f.file_code.startsWith('TM-TEST'));
+    inMemoryStore.access_tokens = inMemoryStore.access_tokens.filter(t => !t.token_preview || !t.token_preview.startsWith('TM-TEST'));
+  }
+  if (reset_stats || reset_all) {
+    inMemoryStore.files.forEach(f => { f.download_count = 0; });
+    results.stats_reset = true;
+  }
+
+  return { success: true, mode: 'local_in_memory', ...results };
+}
+
 module.exports = {
   isLiveSupabase,
   testSupabaseConnection,
@@ -1055,5 +1119,7 @@ module.exports = {
   deleteAppUser,
   deleteMultipleAppUsers,
   getOverviewMetrics,
+  resetSystemData,
   inMemoryStore
 };
+

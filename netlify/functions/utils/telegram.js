@@ -9,7 +9,7 @@ const https = require('https');
  * Get Telegram Bot Token from environment variable
  */
 function getBotToken() {
-  return process.env.TELEGRAM_BOT_TOKEN || '8952851770:AAHj4OP5KaCqZbwckQAeOH0jvTw3QstRbYU';
+  return process.env.TELEGRAM_BOT_TOKEN || '8782200110:AAERijk34maFtjIXC6DFaxTFUBs1SI5Q7fo';
 }
 
 /**

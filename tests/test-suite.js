@@ -28,6 +28,7 @@ const {
   verifyAndClaimDownload,
   revokeToken,
   getFileById,
+  resetSystemData,
   inMemoryStore
 } = require('../netlify/functions/utils/db');
 const verifyTokenHandler = require('../netlify/functions/verify-token').handler;
@@ -878,6 +879,11 @@ async function executeTestSuite() {
     assert.strictEqual(pollData.claimed_username, 'techiemuthuraj');
     assert.strictEqual(pollData.actual_username, 'fake_imposter_user');
   });
+
+  // Automated Teardown: purge test artifacts, test files, and test logs so Supabase remains pristine
+  try {
+    await resetSystemData({ reset_logs: true, reset_test_files: true, reset_stats: true });
+  } catch (_) {}
 
   console.log('\n=============================================================================');
   console.log(`🏁 TEST RESULTS: ${testsPassed} PASSED, ${testsFailed} FAILED`);

@@ -20,6 +20,7 @@ const {
   createAuthChallenge,
   saveSessionToSupabase
 } = require('./utils/auth-sessions');
+const postManager = require('../../post-manager/post-manager');
 
 const PORTAL_URL = process.env.PORTAL_URL || 'https://techsavvymuthuraj.dev/';
 
@@ -140,6 +141,41 @@ exports.handler = async (event, context) => {
         statusCode: 200,
         headers,
         body: JSON.stringify({ ok: true, synced_channel_post: true })
+      };
+    }
+
+    // -------------------------------------------------------------------------
+    // 1.5. Callback Query (Post Manager & Interactive Inline Buttons)
+    // -------------------------------------------------------------------------
+    if (update.callback_query) {
+      const cb = update.callback_query;
+      if (cb.data === 'view_files') {
+        const publicFiles = await getPublicFiles();
+        const topFiles = publicFiles.slice(0, 6);
+
+        let catalogText = `📦 <b>Available Files Catalog:</b>\n\n`;
+        topFiles.forEach((f, idx) => {
+          catalogText += `<b>${idx + 1}. ${f.title}</b>\n`;
+          catalogText += `   Code: <code>${f.file_code}</code> | ${f.file_size} [${f.category}]\n\n`;
+        });
+        catalogText += `<i>Enter any file code on the website with your access token to download!</i>`;
+
+        await sendTelegramMessage(cb.message.chat.id, catalogText, {
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: '🔑 Unlock File on Web', url: PORTAL_URL }],
+              [{ text: '⬅️ Main Menu', callback_data: 'nav:main_menu' }]
+            ]
+          }
+        });
+      } else {
+        await postManager.handleCallbackQuery(cb);
+      }
+
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ ok: true, callback_handled: true })
       };
     }
 
@@ -268,31 +304,32 @@ Your one-time 6-digit login PIN is:
         });
       }
 
-      // Command: Standard /start (Welcome)
+      // Command: Standard /start (Welcome & Post Manager launcher)
       else if (text.startsWith('/start')) {
         const welcomeMessage = `
-⚡ <b>Welcome to Techi Files</b>, ${firstName}!
+⚡ <b>Techie Post Manager & File Command Center</b>
 
-Access verified digital resources, software packages, Android APKs, and developer scripts with cryptographically gated access tokens by <b>@techiemuthuraj</b>.
+👋 Welcome, <b>${firstName}</b>!
+Bot: <b>@TechiePostManagerBot</b> | Target: <b>@techiemuthuraj</b>
 
-<b>How to use:</b>
-1. Browse available files on our web portal or channel.
-2. Obtain an access token for your desired file.
-3. Enter your token on the website to claim your secure download link!
+🚀 <b>Available Modules:</b>
+• <b>Channel Post Manager:</b> Create, style, preview, and broadcast premium posts
+• <b>Techi Files Portal:</b> Access verified digital resources & software downloads
+• <b>Instant Web Login:</b> Send /login to obtain a one-time verification PIN
 
-🔐 <b>Web Login:</b>
-Send /login to get an instant 6-digit login PIN for the website.
+✨ Tap <b>📝 Open Post Manager</b> below to launch the command menu:
         `.trim();
 
         await sendTelegramMessage(chatId, welcomeMessage, {
           reply_markup: {
             inline_keyboard: [
               [
-                { text: '🌐 Open File Portal', url: PORTAL_URL },
-                { text: '✈️ Official Channel', url: 'https://t.me/techiemuthuraj' }
+                { text: '📝 Open Post Manager', callback_data: 'nav:main_menu' },
+                { text: '📦 View Files', callback_data: 'view_files' }
               ],
               [
-                { text: '📦 View Available Files', callback_data: 'view_files' }
+                { text: '🌐 Open File Portal', url: PORTAL_URL },
+                { text: '✈️ Official Channel', url: 'https://t.me/techiemuthuraj' }
               ]
             ]
           }
@@ -325,14 +362,39 @@ Send /login to get an instant 6-digit login PIN for the website.
         const helpText = `
 🛡️ <b>Bot Commands:</b>
 
-/start - Welcome message and quick links
+/start - Welcome message & quick launcher
+/menu - Open Techie Post Manager menu
+/post - Create a new channel post
+/templates - Browse pre-made post templates
 /files - List latest available digital files
+/login - Generate a 6-digit web login PIN
 /help - Show this command list
 
 <i>Need an access token? Contact @techiemuthuraj or check channel posts.</i>
         `.trim();
 
-        await sendTelegramMessage(chatId, helpText);
+        await sendTelegramMessage(chatId, helpText, {
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: '⚡ Open Post Manager', callback_data: 'nav:main_menu' }],
+              [{ text: '🌐 Open Web Portal', url: PORTAL_URL }]
+            ]
+          }
+        });
+      }
+
+      // Post Manager commands & interactive buttons
+      else if (
+        /^\/(?:post|menu|designer|templates|drafts|channels|preview|publish)/i.test(text) ||
+        [
+          '📝 Create New Post', '🎨 Premium Text Designer', '📢 Announcement Creator',
+          '🖼 Photo Post', '🎬 Video Post', '📁 File & Document Post', '🔗 Link & Download Post',
+          '👁 Preview Post', '🚀 Publish Post', '📅 Schedule Post', '📂 My Drafts',
+          '🗂 Post Templates', '📣 Channel Manager', '🤖 AI Content Assistant',
+          '📊 Analytics', '⚙️ Settings', '🔐 Admin Panel', '❓ Help'
+        ].includes(text)
+      ) {
+        await postManager.handleTextMessage(message);
       }
 
       // Direct Token Check attempt: User sends a token like TM-XXXX-XXXX-XXXX
@@ -347,6 +409,25 @@ Paste your token in the verification box to claim your download!
         `.trim();
 
         await sendTelegramMessage(chatId, reply);
+      }
+
+      // Default: Check if user is currently composing an in-flight post draft
+      else {
+        const handledByPostManager = await postManager.handleTextMessage(message);
+        if (!handledByPostManager) {
+          const fallback = `
+💡 <i>Command not recognized.</i>
+Send /menu to open the <b>Techie Post Manager Menu</b> or /start for quick options.
+          `.trim();
+          await sendTelegramMessage(chatId, fallback, {
+            reply_markup: {
+              inline_keyboard: [
+                [{ text: '⚡ Open Post Manager', callback_data: 'nav:main_menu' }],
+                [{ text: '🌐 Open Web Portal', url: PORTAL_URL }]
+              ]
+            }
+          });
+        }
       }
     }
 
