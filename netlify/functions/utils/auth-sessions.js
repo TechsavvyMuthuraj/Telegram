@@ -230,8 +230,8 @@ function createAuthChallenge({ claimedUsername = '', clientIp = '', telegramUser
     claimedUsername: cleanUsername,
     expiresAt,
     expiresInSeconds: Math.floor(SESSION_TTL_MS / 1000),
-    deepLink: `https://t.me/${process.env.TELEGRAM_BOT_USERNAME || 'techieverifybot'}?start=auth_${code}`,
-    botUsername: process.env.TELEGRAM_BOT_USERNAME || 'techieverifybot'
+    deepLink: `https://t.me/${process.env.TELEGRAM_BOT_USERNAME || 'TechiePostManagerBot'}?start=auth_${code}`,
+    botUsername: process.env.TELEGRAM_BOT_USERNAME || 'TechiePostManagerBot'
   };
 
   const promise = (async () => {

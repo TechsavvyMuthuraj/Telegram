@@ -229,7 +229,7 @@ exports.handler = async (event, context) => {
             headers,
             body: JSON.stringify({ 
               success: false, 
-              error: 'Invalid or expired PIN code. Please type /login in @techieverifybot to get a fresh 6-digit code.' 
+              error: `Invalid or expired PIN code. Please type /login in @${process.env.TELEGRAM_BOT_USERNAME || 'TechiePostManagerBot'} to get a fresh 6-digit code.` 
             })
           };
         }
@@ -283,7 +283,7 @@ exports.handler = async (event, context) => {
           body: JSON.stringify({
             success: false,
             status: session.status,
-            message: 'PIN registered. Please tap START in @techieverifybot or send this code in the bot.'
+            message: `PIN registered. Please tap START in @${process.env.TELEGRAM_BOT_USERNAME || 'TechiePostManagerBot'} or send this code in the bot.`
           })
         };
       }

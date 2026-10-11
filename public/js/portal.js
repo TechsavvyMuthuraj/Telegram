@@ -877,13 +877,13 @@ async function submitAuthPinCode() {
     });
 
     if (!res || !res.success) {
-      throw new Error(res?.error || res?.message || 'Invalid or expired PIN code. Please type /login in @techieverifybot.');
+      throw new Error(res?.error || res?.message || 'Invalid or expired PIN code. Please type /login in @TechiePostManagerBot.');
     }
 
     if (res.status === 'verified' && res.user) {
       handleAuthSuccess(res);
     } else {
-      throw new Error(res.message || 'Verification pending. Please confirm this PIN code in @techieverifybot.');
+      throw new Error(res.message || 'Verification pending. Please confirm this PIN code in @TechiePostManagerBot.');
     }
   } catch (err) {
     if (errEl) {
