@@ -269,6 +269,126 @@ Could not publish to <b>${targetChannel}</b>.
     }
   }
 
+  // 7.1. Action: Edit Post Text
+  if (data === 'action:edit_text') {
+    drafts.updateDraft(userId, { step: 'entering_content' });
+    const prompt = `
+✏️ <b>Edit Post Content</b>
+━━━━━━━━━━━━━━━━━━━━━
+Please send your new post text in the chat!
+
+💡 <i>Supported HTML tags:</i>
+• <code>&lt;b&gt;Bold&lt;/b&gt;</code>
+• <code>&lt;i&gt;Italic&lt;/i&gt;</code>
+• <code>&lt;code&gt;Code&lt;/code&gt;</code>
+• <code>&lt;tg-spoiler&gt;Spoiler&lt;/tg-spoiler&gt;</code>
+• <code>&lt;a href="https://..."&gt;Link Text&lt;/a&gt;</code>
+    `.trim();
+
+    await sendTelegramMessage(chatId, prompt, {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: '⬅️ Back to Preview', callback_data: 'action:preview' }]
+        ]
+      }
+    });
+    return;
+  }
+
+  // 7.2. Action: Add Inline Buttons
+  if (data === 'action:add_buttons') {
+    const text = `
+🔘 <b>Add Inline Action Buttons</b>
+━━━━━━━━━━━━━━━━━━━━━
+Tap any button below to attach it to your post:
+    `.trim();
+
+    await sendTelegramMessage(chatId, text, {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: '➕ Add "⬇️ Download Now (Portal)"', callback_data: 'btn:add_download' }],
+          [{ text: '➕ Add "✈️ Join Channel"', callback_data: 'btn:add_channel' }],
+          [{ text: '➕ Add "▶️ YouTube Channel"', callback_data: 'btn:add_youtube' }],
+          [{ text: '➕ Add "💬 Contact Admin"', callback_data: 'btn:add_contact' }],
+          [{ text: '👁 Preview Post with Buttons', callback_data: 'action:preview' }],
+          [{ text: '⬅️ Back to Menu', callback_data: 'nav:main_menu' }]
+        ]
+      }
+    });
+    return;
+  }
+
+  // 7.3. Button Click: Add specific button
+  if (data.startsWith('btn:add_')) {
+    const btnType = data.replace('btn:add_', '');
+    const draft = drafts.getDraft(userId);
+    let newBtn = null;
+
+    if (btnType === 'download') {
+      newBtn = [{ text: '⬇️ Download on Techi Files', url: config.portalUrl }];
+    } else if (btnType === 'channel') {
+      newBtn = [{ text: '✈️ Join @techiemuthuraj', url: 'https://t.me/techiemuthuraj' }];
+    } else if (btnType === 'youtube') {
+      newBtn = [{ text: '▶️ Watch on YouTube', url: 'https://youtube.com/@techiemuthuraj' }];
+    } else if (btnType === 'contact') {
+      newBtn = [{ text: '💬 Contact Admin', url: 'https://t.me/techiemuthuraj' }];
+    }
+
+    if (newBtn) {
+      const existingButtons = draft.buttons || [];
+      drafts.updateDraft(userId, { buttons: [...existingButtons, newBtn] });
+      await sendTelegramMessage(chatId, `✅ <b>Action button added!</b> Tap <b>👁 Preview Post</b> below to inspect your updated layout:`, {
+        reply_markup: keyboards.getPostActionKeyboard(true)
+      });
+    }
+    return;
+  }
+
+  // 7.4. Action: Save Draft
+  if (data === 'action:save_draft') {
+    drafts.saveDraftPermanently(userId);
+    const msg = `
+💾 <b>Draft Saved Successfully!</b>
+━━━━━━━━━━━━━━━━━━━━━
+Your post draft has been safely saved.
+You can reopen or broadcast it anytime under <b>📂 My Drafts</b>.
+    `.trim();
+
+    await sendTelegramMessage(chatId, msg, {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: '👁 View Preview', callback_data: 'action:preview' }],
+          [{ text: '📂 Open My Drafts', callback_data: 'menu:drafts' }],
+          [{ text: '🚀 Publish Post', callback_data: 'action:publish_confirm' }],
+          [{ text: '⬅️ Main Menu', callback_data: 'nav:main_menu' }]
+        ]
+      }
+    });
+    return;
+  }
+
+  // 7.5. Action: Discard Draft
+  if (data === 'action:discard_draft' || data === 'action:discard') {
+    drafts.clearDraft(userId);
+    await sendTelegramMessage(chatId, '🗑️ <b>Draft discarded and cleared!</b>', {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: '📝 Create New Post', callback_data: 'menu:create_post' }],
+          [{ text: '⬅️ Main Menu', callback_data: 'nav:main_menu' }]
+        ]
+      }
+    });
+    return;
+  }
+
+  // 7.6. Action: Schedule
+  if (data === 'action:schedule') {
+    await sendTelegramMessage(chatId, `📅 <b>Post Scheduling (Phase 2)</b>\n━━━━━━━━━━━━━━━━━━━━━\nPost is safely stored in your drafts. The persistent scheduling engine is queued for Phase 2.\n\nTap <b>🚀 Publish Now</b> to broadcast immediately!`, {
+      reply_markup: keyboards.getPostActionKeyboard(true)
+    });
+    return;
+  }
+
   // 8. Menu: Channel Manager
   if (data === 'menu:channels') {
     const text = `
@@ -503,7 +623,7 @@ async function handleTextMessage(message) {
     await handleCallbackQuery({ id: '0', from, message, data: 'menu:help' });
     return true;
   }
-  if (text === '/menu') {
+  if (text === '/menu' || text.startsWith('/start')) {
     await sendMainMenu(chatId, from.first_name || 'Admin');
     return true;
   }
